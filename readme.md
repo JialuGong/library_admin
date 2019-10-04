@@ -21,7 +21,7 @@ dataType:String
 data:
 "password_error"
 "name_not_found"
-"name_not_found"
+"login_success"
 ```
 ##### 2. register new librarian
 ```
