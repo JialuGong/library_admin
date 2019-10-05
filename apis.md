@@ -1,8 +1,9 @@
 # apis
-host name：localhost:8080
+host name：localhost
+port:8000
 ##### 1. log in
 ```
-url:/mandarin/admin/login
+url:apis/mandarin/admin/login
 ```
 ###### client
 
@@ -25,7 +26,7 @@ data:
 ```
 ##### 2. register new librarian
 ```
-url:/mandarin/admin/registerLib
+url:apis/mandarin/admin/registerLib
 ```
 ###### client
 
@@ -50,7 +51,7 @@ data:
 
 ##### 3. get librarian list
 ```
-url:/mandarin/admin/getAllLib
+url:apis/mandarin/admin/getAllLib
 ```
 ###### client
 
@@ -71,7 +72,7 @@ data:
 ```
 ##### 4. edit librarian
 ```
-url:/mandarin/admin/editLib
+url:apis/mandarin/admin/editLib
 ```
 ###### client
 
@@ -95,7 +96,7 @@ data:
 ```
 ##### 5.delete librarian
 ```
-url:/mandarin/admin/deleteLib
+url:apis/mandarin/admin/deleteLib
 ```
 ###### client
 
@@ -118,7 +119,7 @@ data:
 ```
 ##### 6.modify book fine value
 ```
-url:/mandarin/admin/modifyBookFine
+url:apis/mandarin/admin/modifyBookFine
 ```
 ###### client
 
@@ -139,7 +140,7 @@ data:
 ```
 ##### 7. get book fine value
 ```
-url:/mandarin/admin/getBookFine
+url:apis/mandarin/admin/getBookFine
 ```
 ###### client
 
@@ -154,7 +155,7 @@ data:
 ```
 ##### 8.modify book period
 ```
-url:/mandarin/admin/modifyBookPeriod
+url:apis/mandarin/admin/modifyBookPeriod
 ```
 ###### client
 
@@ -175,7 +176,7 @@ data:
 ```
 ##### 9. get book period
 ```
-url:/mandarin/admin/getBookPeriod
+url:apis/mandarin/admin/getBookPeriod
 ```
 ###### client
 
@@ -190,7 +191,7 @@ data:
 ```
 ##### 10.modify reader deposit
 ```
-url:/mandarin/admin/modifyReaderDeposit
+url:apis/mandarin/admin/modifyReaderDeposit
 ```
 ###### client
 
@@ -212,7 +213,7 @@ data:
 
 ##### 11. get book fine value
 ```
-url:/mandarin/admin/getReaderDeposit
+url:apis/mandarin/admin/getReaderDeposit
 ```
 ###### client
 
