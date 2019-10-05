@@ -24,6 +24,7 @@ data:
 "password_error"
 "name_not_found"
 "login_success"
+"login_fail"
 ```
 ##### 2. register new librarian
 ```
@@ -48,6 +49,7 @@ dataType:String
 data:
 "name_existed"
 "register_success"
+"register_fail"
 ```
 
 ##### 3. get librarian list
@@ -64,7 +66,6 @@ type:get
 dataType:json
 data:
 {
-"librarian_id":{librarianId},
 "librarian_name":{librarianName},
 "librarian_password":{librariabPassword},
 "librarian_phone":{librarianPhone},
@@ -137,7 +138,7 @@ data:
 dataType:String
 data:
 "modify_success",
-"modify_faile"
+"modify_fail"
 ```
 ##### 7. get book fine value
 ```
@@ -173,7 +174,7 @@ data:
 dataType:String
 data:
 "modify_success",
-"modify_faile"
+"modify_fail"
 ```
 ##### 9. get book period
 ```
@@ -209,7 +210,7 @@ data:
 dataType:String
 data:
 "modify_success",
-"modify_faile"
+"modify_fail"
 ```
 
 ##### 11. get book fine value
