@@ -66,10 +66,13 @@ type:get
 dataType:json
 data:
 {
+//"librarian_id":{librarianID},
 "librarian_name":{librarianName},
-"librarian_password":{librariabPassword},
-"librarian_phone":{librarianPhone},
-"librarian_email":{librarianEmail}
+"data":{
+	"librarian_password":{librariabPassword},
+	"librarian_phone":{librarianPhone},
+	"librarian_email":{librarianEmail}
+	}
 }
 ```
 ##### 4. edit librarian
