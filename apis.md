@@ -1,7 +1,6 @@
-request from jianghupiao
 # apis
 host name：localhost
-port:8000
+port:8080
 ##### 1. log in
 ```
 url:apis/mandarin/admin/login
