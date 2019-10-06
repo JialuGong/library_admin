@@ -213,7 +213,7 @@ data:
 "modify_fail"
 ```
 
-##### 11. get book fine value
+##### 11. get reader deposit
 ```
 url:apis/mandarin/admin/getReaderDeposit
 ```
