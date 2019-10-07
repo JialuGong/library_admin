@@ -86,6 +86,7 @@ type:post
 dataType:formdata
 data:
 {
+"librarian_id":{librarianID},
 "librarian_name":{librarianName},
 "librarian_password":{librarianPassword},
 "librarian_phone":{librarianPhone},
@@ -97,6 +98,7 @@ data:
 dataType:String
 data:
 "edit_success"
+"name_existd"
 "edit_fail"
 ```
 ##### 5.delete librarian
