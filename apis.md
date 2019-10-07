@@ -36,6 +36,7 @@ type:post
 dataType:formdata
 data:
 {
+"librarian_id":{librarianID},
 "librarian_name":{librarianName},
 "librarian_password":{librarianPassword},
 "librarian_phone":{librarianPhone},
