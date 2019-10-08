@@ -1,4 +1,23 @@
 # apis
+
+####important
+返回的json的形式
+- success
+```js
+{
+"code":1,
+"message":"success",
+"data":{data}
+}
+```
+- fail
+```js
+"code":0,
+"message":{错误的原因}
+"data":{data}
+```
+___
+
 host name：localhost
 port:8080
 ##### 1. log in
@@ -276,3 +295,4 @@ data:
 {
 }
 ```
+
