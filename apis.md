@@ -266,7 +266,7 @@ data:{
 #### 13  __get permission__
 
 ```
-url:/apis/mandarin/admin/info
+url:/apis/mandarin/admin/getInfo
 ```
 ###### client
 ```js
@@ -277,7 +277,7 @@ type:get
 dataType:json
 data:
 {
-"amin_name":{adminName}
+"admin_name":{adminName}
 }
 ```
 ____
