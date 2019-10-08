@@ -248,7 +248,15 @@ type:post
 dataType:FormData
 data:
 {
-"librarian_name":{libririanName}
+"message":"success"("failedl"),
+"code":1,(failed:0)
+"data":{
+"librarian_name":{libririanN"librarian_id":{librarianID},
+"librarian_name":{librarianName},
+"librarian_password":{librarianPassword},
+"librarian_phone":{librarianPhone},
+"librarian_email":{librarianEmail}ame}
+	}
 }
 ```
 ____
