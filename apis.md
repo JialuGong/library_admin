@@ -37,12 +37,8 @@ data:
 ```
 ###### server
 ```js
-dataType:String
-data:
-"password_error"
-"name_not_found"
-"login_success"
-"login_fail"
+dataType:json
+data:{}
 ```
 ##### 2. register new librarian
 ```
@@ -64,11 +60,8 @@ data:
 ```
 ###### server
 ```js
-dataType:String
-data:
-"name_existed"
-"register_success"
-"register_fail"
+dataType:json
+data:{}
 ```
 
 ##### 3. get librarian list
@@ -85,13 +78,11 @@ type:get
 dataType:json
 data:
 {
-//"librarian_id":{librarianID},
+"librarian_id":{librarianID},
 "librarian_name":{librarianName},
-"data":{
-	"librarian_password":{librariabPassword},
-	"librarian_phone":{librarianPhone},
-	"librarian_email":{librarianEmail}
-	}
+"librarian_password":{librariabPassword},
+"librarian_phone":{librarianPhone},
+"librarian_email":{librarianEmail}
 }
 ```
 ##### 4. edit librarian
@@ -114,11 +105,8 @@ data:
 ```
 ###### server
 ```js
-dataType:String
-data:
-"edit_success"
-"name_existd"
-"edit_fail"
+dataType:json
+data:{}
 ```
 ##### 5.delete librarian
 ```
@@ -132,16 +120,12 @@ dataType:formdata
 data:
 {
 "librarian_name":{librarianName},
-
 }
 ```
 ###### server
 ```js
-dataType:String
-data:
-"delete_success"
-"delete_fail"
-"name_not_found"
+dataType:Json
+data:{}
 ```
 ##### 6.modify book fine value
 ```
@@ -159,10 +143,8 @@ data:
 ```
 ###### server
 ```js
-dataType:String
-data:
-"modify_success",
-"modify_fail"
+dataType:json
+data:{}
 ```
 ##### 7. get book fine value
 ```
@@ -196,9 +178,10 @@ data:
 ###### server
 ```js
 dataType:String
-data:
+data:{
 "modify_success",
 "modify_fail"
+}
 ```
 ##### 9. get book period
 ```
@@ -232,9 +215,7 @@ data:
 ###### server
 ```js
 dataType:String
-data:
-"modify_success",
-"modify_fail"
+data:{}
 ```
 
 ##### 11. get reader deposit
@@ -258,6 +239,7 @@ _____
 ### new
 
 - __search librarian__
+
 ```
 url:/apis/mandarin/admin/searchLib
 ```
@@ -265,17 +247,19 @@ url:/apis/mandarin/admin/searchLib
 ```js
 type:post
 dataType:FormData
-data:
-{
-"message":"success"("failedl"),
-"code":1,(failed:0)
+data:{
+"librarian_name":{librarianName}
+}
+```
+
+####### server
+```js
 "data":{
 "librarian_name":{libririanN"librarian_id":{librarianID},
 "librarian_name":{librarianName},
 "librarian_password":{librarianPassword},
 "librarian_phone":{librarianPhone},
-"librarian_email":{librarianEmail}ame}
-	}
+"librarian_email":{librarianEmail}
 }
 ```
 ____
