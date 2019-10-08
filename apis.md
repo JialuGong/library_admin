@@ -262,9 +262,9 @@ data:{
 "librarian_email":{librarianEmail}
 }
 ```
-____
-### maybe?
+
 - __get permission__
+
 ```
 url:/apis/mandarin/admin/info
 ```
@@ -277,6 +277,10 @@ type:get
 dataType:json
 data:
 {
+"amin_name":{adminName}
 }
 ```
+____
+
+
 
