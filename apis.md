@@ -235,10 +235,10 @@ data:
 ```
 
 
-_____
-### new
 
-- __search librarian__
+_____
+
+#### 12  __search librarian__
 
 ```
 url:/apis/mandarin/admin/searchLib
@@ -263,7 +263,7 @@ data:{
 }
 ```
 
-- __get permission__
+#### 13  __get permission__
 
 ```
 url:/apis/mandarin/admin/info
