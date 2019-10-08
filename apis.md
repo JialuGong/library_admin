@@ -233,3 +233,38 @@ dataType:json
 data:
 {"reader_deposit":{readerDeposit}=>(注释：readerDeposit的type为double)
 ```
+
+
+_____
+### new
+
+- __search librarian__
+```
+url:/apis/mandarin/admin/searchLib
+```
+###### client
+```js
+type:post
+dataType:FormData
+data:
+{
+"librarian_name":{libririanName}
+}
+```
+____
+### maybe?
+- __get permission__
+```
+url:/apis/mandarin/admin/info
+```
+###### client
+```js
+type:get
+```
+###### server
+```js
+dataType:json
+data:
+{
+}
+```
