@@ -4,6 +4,7 @@ import baseURL from './baseUrl'
 import { Message } from 'element-ui'
 const http = {}
 
+// 创建axios实例
 var instance = axios.create({
     timeout: 1000,
     baseURL,
@@ -68,7 +69,8 @@ instance.interceptors.response.use(
         // Message.error({
         //     message: err.message
         // })
-        return Promise.reject(err.response)
+        return Promise.reject(err.message)
+        // return Promise.reject(err.response)
     }
 )
 
@@ -90,9 +92,9 @@ http.get = function(url, options) {
                     resolve(response.data)
                 } else {
                     Message.error({
-                        message: response.msg
+                        message: response.message
                     })
-                    reject(response.msg)
+                    reject(response.message)
                 }
             })
             .catch(e => {
