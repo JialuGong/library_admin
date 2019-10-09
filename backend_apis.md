@@ -1,10 +1,10 @@
 # apis from back_end
 
-————————————————————
+___
 host name：localhost
 
 port:8080
-————————————————————
+___
 
 ##### 1. log in
 ```
@@ -481,8 +481,7 @@ data:{
 "librarian_name":{librarianName}
 }
 ```
-
-####### server
+###### server
 ```js
 "data":{
 "librarian_name":{libririanN"librarian_id":{librarianID},
