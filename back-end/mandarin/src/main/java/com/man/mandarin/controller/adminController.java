@@ -10,6 +10,7 @@ import com.man.mandarin.entity.Librarian;
 import com.man.mandarin.service.AdminService;
 import com.man.mandarin.service.LibrarianService;
 import com.man.mandarin.service.RuleService;
+import com.man.mandarin.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/mandarin/admin")
+@RequestMapping("/apis/mandarin/admin")
 public class adminController {
 @Autowired
 private AdminService adminService;
@@ -34,48 +35,51 @@ private RuleService ruleService;
 // 1.登录
 @RequestMapping(value = "/login", method = RequestMethod.POST)
 @ResponseBody
-public String login(
+public JSON login(
 @RequestParam("admin_name") String name,
 @RequestParam("admin_password") String password) {
+    JsonUtil jsonUtil =new JsonUtil();
         try{
         if (name != null && password != null) {
         List<Admin> admins = adminService.queryByName(name);
         if (admins.size() == 0) {
-        return "name_not_found";
+            return jsonUtil.messagetoJson("fail","name_not_found");
         } else {
         if (admins.get(0).getPassword().equals(password)) {
-        return "login_success";
+            return jsonUtil.messagetoJson("success",null);
         } else {
-        return "password_error";
+            return jsonUtil.messagetoJson("fail","password_error");
         }
         }
         }else
         return null;
         }catch (Exception e){
-        return "login_fail";
+            return jsonUtil.messagetoJson("fail","login_fail");
         }
         }
 
 //2.注册图书管理员
 @RequestMapping(value = "/registerLib", method = RequestMethod.POST)
 @ResponseBody
-public String registerLib(@RequestParam("librarian_name") String name,
+public JSON registerLib(
+        @RequestParam("librarian_name") String name,
 @RequestParam("librarian_password") String password,
 @RequestParam("librarian_phone") String phone,
 @RequestParam("librarian_email") String email){
+    JsonUtil jsonUtil =new JsonUtil();
         try{
         if (name != null && password != null) {
         List<Librarian> librarians= librarianService.queryByName(name);
         if (librarians.size() != 0) {
-        return "name_existed";
+            return jsonUtil.messagetoJson("fail","name_existed");
         } else {
         librarianService.addLibrarian(name, password, phone, email);
-        return "register_success";
+            return jsonUtil.messagetoJson("success",null);
         }
         }else
         return null;
         }catch (Exception e){
-        return "register_fail";
+            return jsonUtil.messagetoJson("fail","register_fail");
         }
         }
 // 3.显示所有图书管理员信息
@@ -84,18 +88,8 @@ public String registerLib(@RequestParam("librarian_name") String name,
 public JSON getAllLib() {
         try{
         List<Librarian> librarians= librarianService.getAllInfo();
-        JSONArray librariansJSON = new JSONArray();
-        JSONObject jsonObject = null;
-        for (Librarian librarian : librarians){
-        jsonObject=new JSONObject();
-        jsonObject.put("librarian_id", librarian.getId());
-        jsonObject.put("librarian_name", librarian.getName());
-        jsonObject.put("librarian_password", librarian.getPassword());
-        jsonObject.put("librarian_phone", librarian.getPhone());
-        jsonObject.put("librarian_email", librarian.getEmail());
-        librariansJSON.add(jsonObject);
-        }
-        return librariansJSON;
+            JsonUtil jsonutil=new JsonUtil();
+            return jsonutil.librariantoJson("success",librarians,null);
         } catch (JSONException e) {
         e.printStackTrace();
         return null;
@@ -105,53 +99,57 @@ public JSON getAllLib() {
 // 4.更改所有图书管理员信息
 @RequestMapping(value = "/editLib", method = RequestMethod.POST)
 @ResponseBody
-public String editLib(
+public JSON editLib(
 @RequestParam("librarian_id") int id,
 @RequestParam("librarian_name") String name,
 @RequestParam("librarian_password") String password,
 @RequestParam("librarian_phone") String phone,
 @RequestParam("librarian_email") String email) {
+    JsonUtil jsonUtil=new JsonUtil();
         try{
         if (name != null && password != null) {
         List<Librarian> librarians = librarianService.queryByName(name);
         if (librarians.size()!=0&&librarians.get(0).getId()!=id) {
-        return "name_existed";
-        } else return "edit_success";
+            return jsonUtil.messagetoJson("fail","name_existed");
+        } else
+            return jsonUtil.messagetoJson("success",null);
         }else
         return null;
         }catch (Exception e){
-        return "edit_fail";
+            return jsonUtil.messagetoJson("fail","edit_fail");
         }
         }
 
 //5.删除图书管理员
 @RequestMapping(value = "/deleteLib", method = RequestMethod.POST)
 @ResponseBody
-public String deleteLib(
+public JSON deleteLib(
 @RequestParam("librarian_name") String name) {
+    JsonUtil jsonUtil=new JsonUtil();
         try{
         List<Librarian> librarians = librarianService.queryByName(name);
         if (librarians.size()!=0){
         librarianService.deleteLibByName(name);
-        return "delete_success";
+            return jsonUtil.messagetoJson("success",null);
         }else
-        return "name_not_found";
+            return jsonUtil.messagetoJson("fail","name_not_found");
         }catch (Exception e){
-        return "delete_fail";
+            return jsonUtil.messagetoJson("fail","delete_fail");
         }
         }
 
 //6.更改图书罚款的金额
 @RequestMapping(value = "/modifyBookFine", method = RequestMethod.POST)
 @ResponseBody
-public String modifyBookFine(
+public JSON modifyBookFine(
 @RequestParam("book_fine_value") double fine,
 @RequestParam("timestamp") String timestamp) {
+    JsonUtil jsonUtil=new JsonUtil();
         try{
         ruleService.addRule(fine,-1.0,-1.0,timestamp);
-        return "modify_success";
+            return jsonUtil.messagetoJson("success",null);
         }catch (Exception ignored){
-        return "modify_fail";
+            return jsonUtil.messagetoJson("fail","modify_fail");
         }
         }
 
@@ -159,37 +157,27 @@ public String modifyBookFine(
 @RequestMapping(value = "/getBookFine", method = RequestMethod.GET)
 @ResponseBody
 public JSON getBookFine() {
+    JsonUtil jsonUtil=new JsonUtil();
+    List<Admin_rules> rules=ruleService.getAllInfo();
         try{
-        List<Admin_rules> rules= ruleService.getAllInfo();
-        JSONArray rulesJSON = new JSONArray();
-        JSONObject jsonObject = null;
-        for(int i=0;i<ruleService.getAllInfo().size();i++){
-        System.out.println(ruleService.getAllInfo().get(i).toString());
-        if(rules.get(i).getFine()>0){
-        jsonObject=new JSONObject();
-        jsonObject.put("book_fine_value", rules.get(i).getFine());
-        jsonObject.put("timestamp", rules.get(i).getTimestamp());
-        rulesJSON.add(jsonObject);
-        }else
-        continue;
-        }
-        return rulesJSON;
+        return jsonUtil.ruletoJson("success",rules,null,"fine");
         }catch (Exception e){
-        return null;
+            return jsonUtil.ruletoJson("fail",rules,"acquisition_failed",null);
         }
         }
 
 //8.更改图书借阅期限
 @RequestMapping(value = "/modifyBookPeriod", method = RequestMethod.POST)
 @ResponseBody
-public String modifyBookPeriod(
+public JSON modifyBookPeriod(
 @RequestParam("book_period") double period,
 @RequestParam("timestamp") String timestamp) {
+    JsonUtil jsonUtil=new JsonUtil();
         try{
         ruleService.addRule(-1.0,period,-1.0,timestamp);
-        return "modify_success";
+            return jsonUtil.messagetoJson("success",null);
         }catch (Exception e){
-        return "modify_fail";
+            return jsonUtil.messagetoJson("fail","modify_fail");
         }
         }
 
@@ -197,37 +185,27 @@ public String modifyBookPeriod(
 @RequestMapping(value = "/getBookPeriod", method = RequestMethod.GET)
 @ResponseBody
 public JSON getBookPeriod() {
+    JsonUtil jsonUtil=new JsonUtil();
+    List<Admin_rules> rules= ruleService.getAllInfo();
         try{
-        List<Admin_rules> rules= ruleService.getAllInfo();
-        JSONArray rulesJSON = new JSONArray();
-        JSONObject jsonObject = null;
-        for(int i=0;i<ruleService.getAllInfo().size();i++){
-        System.out.println(ruleService.getAllInfo().get(i).toString());
-        if(rules.get(i).getPeriod()>0){
-        jsonObject=new JSONObject();
-        jsonObject.put("book_period", rules.get(i).getPeriod());
-        jsonObject.put("timestamp", rules.get(i).getTimestamp());
-        rulesJSON.add(jsonObject);
-        }else
-        continue;
-        }
-        return rulesJSON;
+            return jsonUtil.ruletoJson("success",rules,null,"period");
         }catch (Exception e){
-        return null;
+            return jsonUtil.ruletoJson("fail",rules,"acquisition_failed",null);
         }
         }
 
 //10.更改读者缴纳金
 @RequestMapping(value = "/modifyReaderDeposit", method = RequestMethod.POST)
 @ResponseBody
-public String modifyReaderDeposit(
+public JSON modifyReaderDeposit(
 @RequestParam("reader_deposit") double deposit,
 @RequestParam("timestamp") String timestamp) {
+    JsonUtil jsonUtil=new JsonUtil();
         try{
         ruleService.addRule(-1.0,-1.0,deposit,timestamp);
-        return "modify_success";
+            return jsonUtil.messagetoJson("success",null);
         }catch (Exception e){
-        return "modify_fail";
+            return jsonUtil.messagetoJson("fail","modify_fail");
         }
         }
 
@@ -235,23 +213,40 @@ public String modifyReaderDeposit(
 @RequestMapping(value = "/getReaderDeposit", method = RequestMethod.GET)
 @ResponseBody
 public JSON getReaderDeposit() {
+    JsonUtil jsonUtil=new JsonUtil();
+    List<Admin_rules> rules= ruleService.getAllInfo();
         try{
-        List<Admin_rules> rules= ruleService.getAllInfo();
-        JSONArray rulesJSON = new JSONArray();
-        JSONObject jsonObject = null;
-        for(int i=0;i<ruleService.getAllInfo().size();i++){
-        System.out.println(ruleService.getAllInfo().get(i).toString());
-        if(rules.get(i).getDeposit()>0){
-        jsonObject=new JSONObject();
-        jsonObject.put("reader_deposit", rules.get(i).getDeposit());
-        jsonObject.put("timestamp", rules.get(i).getTimestamp());
-        rulesJSON.add(jsonObject);
-        }else
-        continue;
-        }
-        return rulesJSON;
+            return jsonUtil.ruletoJson("success",rules,null,"deposit");
         }catch (Exception e){
-        return null;
+            return jsonUtil.ruletoJson("fail",rules,"acquisition_failed",null);
         }
         }
+        //12.搜索图书管理员
+    @RequestMapping(value = "/searchLib", method = RequestMethod.POST)
+    @ResponseBody
+    public JSON searchLib(
+            @RequestParam("librarian_name") String name) {
+        List<Librarian> librarians = librarianService.queryByName(name);
+        JsonUtil jsonUtil=new JsonUtil();
+        try{
+            if (librarians.size()!=0){
+                return jsonUtil.librariantoJson("success",librarians,null);
+            }else
+                return jsonUtil.librariantoJson("fail",librarians,"name_not_found");
+        }catch (Exception e){
+            return jsonUtil.librariantoJson("fail",librarians,"search_fail");
+        }
+    }
+    //13.获得permission
+    @RequestMapping(value = "/getInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public JSON getInfo() {
+        JsonUtil jsonUtil=new JsonUtil();
+        List<Admin> admins = adminService.getAllInfo();
+        try{
+            return jsonUtil.admintoJson("success",admins,null);
+        }catch (Exception e){
+            return jsonUtil.admintoJson("fail",admins,"acquisition_failed");
+        }
+    }
         }
