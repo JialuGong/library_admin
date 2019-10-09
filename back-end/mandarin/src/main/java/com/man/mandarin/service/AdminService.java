@@ -1,7 +1,6 @@
 package com.man.mandarin.service;
 import com.man.mandarin.dao.AdminRepository;
 import com.man.mandarin.entity.Admin;
-import org.hibernate.annotations.Source;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,6 +19,10 @@ public class AdminService {
     }
     public List<Admin> queryByName(String name){
         List<Admin> adminList = adminRepository.findByName(name);
+        return adminList;
+    }
+    public List<Admin> getAllInfo(){
+        List<Admin> adminList = adminRepository.findAll();
         return adminList;
     }
 }
