@@ -11,19 +11,18 @@ import com.man.mandarin.service.AdminService;
 import com.man.mandarin.service.LibrarianService;
 import com.man.mandarin.service.RuleService;
 import com.man.mandarin.util.JsonUtil;
+import com.man.mandarin.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 import java.util.List;
 
 
-@Controller
+@RestController
 @RequestMapping("/apis/mandarin/admin")
 public class adminController {
 @Autowired
@@ -46,7 +45,17 @@ public JSON login(
             return jsonUtil.messagetoJson("fail","name_not_found");
         } else {
         if (admins.get(0).getPassword().equals(password)) {
-            return jsonUtil.messagetoJson("success",null);
+            JSONObject jsonObject=new JSONObject();
+            //for token
+            JSONObject tokenJsonObject=new JSONObject();
+            Admin admin= new Admin();
+            String token = TokenUtil.sign(admin);
+            tokenJsonObject.put("token",token);
+            jsonObject.put("code",1);
+            jsonObject.put("message","success");
+            jsonObject.put("data",tokenJsonObject);
+            return jsonObject;
+//            return jsonUtil.messagetoJson("success",null);
         } else {
             return jsonUtil.messagetoJson("fail","password_error");
         }

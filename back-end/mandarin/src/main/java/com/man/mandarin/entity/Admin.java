@@ -21,6 +21,10 @@ public class Admin{
     public Admin() {
     }
 
+    public Admin(String name, String password){
+        this.name = name;
+        this.password = password;
+    }
     public Admin(String name, String password, String phone, String email) {
         super();
         this.name = name;

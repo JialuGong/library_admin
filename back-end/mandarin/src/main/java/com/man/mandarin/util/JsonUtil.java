@@ -3,7 +3,6 @@ package com.man.mandarin.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.man.mandarin.entity.Admin;
 import com.man.mandarin.entity.Admin_rules;
 import com.man.mandarin.entity.Librarian;
@@ -14,20 +13,17 @@ public class JsonUtil {
     public JsonUtil() {
     }
     public JSON messagetoJson(String status,String error_type){
-        JSONArray json = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         if(status=="success"){
             jsonObject.put("code",1);
             jsonObject.put("message","success");
             jsonObject.put("data",null);
-            json.add(jsonObject);
         }else if(status=="fail"){
             jsonObject.put("code",0);
             jsonObject.put("message",error_type);
             jsonObject.put("data",null);
-            json.add(jsonObject);
         }
-        return json;
+        return jsonObject;
     }
     public JSON admintoJson(String status,List<Admin> admins,String error_type){
         JSONArray json = new JSONArray();
@@ -46,36 +42,30 @@ public class JsonUtil {
             return json;
     }
     public JSON librariantoJson(String status,List<Librarian> librarians,String error_type){
-        JSONArray json = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         if(status=="success"){
             jsonObject.put("code",1);
             jsonObject.put("message","success");
             jsonObject.put("data",libtoJson(librarians));
-            json.add(jsonObject);
         }else if(status=="fail"){
             jsonObject.put("code",0);
             jsonObject.put("message",error_type);
             jsonObject.put("data",null);
-            json.add(jsonObject);
         }
-        return json;
+        return jsonObject;
     }
     public JSON ruletoJson(String status,List<Admin_rules> rules,String error_type,String info){
-        JSONArray json = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         if(status=="success"){
             jsonObject.put("code",1);
             jsonObject.put("message","success");
             jsonObject.put("data",rltoJson(rules,info));
-            json.add(jsonObject);
         }else if(status=="fail"){
             jsonObject.put("code",0);
             jsonObject.put("message",error_type);
             jsonObject.put("data",null);
-            json.add(jsonObject);
         }
-        return json;
+        return jsonObject;
     }
     public JSON adtoJson(List<Admin> admins){
         JSONArray json = new JSONArray();
