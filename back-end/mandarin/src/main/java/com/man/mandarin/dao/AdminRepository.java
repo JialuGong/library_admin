@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Integer>, JpaSpecificationExecutor<Admin> {
     List<Admin> findByName(String name);
+    List<Admin> findAll();
 }
