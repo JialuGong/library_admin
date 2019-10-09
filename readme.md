@@ -5,6 +5,10 @@
 > back-end :[floatinjianghu](https://github.com/floatinjianghu)
 
 ### how to run
+######addtional remarks
+front-end port:8001
+back-end portt:8080
+（请注意这两个端口有无被占用）
 ###### front-end
 1. install node(推荐使用nvm)
 	- windows 安装[nvm](https://github.com/coreybutler/nvm-windows/releases)
