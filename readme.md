@@ -32,6 +32,8 @@ back-end portt:8080
     npm install
     node apis.js
     ```
+- ps：若npminstall较慢，请切换到淘宝源
+- pss：对于nvm出现无法安装的问题：请在nvm的setting.txt中添加淘宝源
 
 ###### back-end(need to install [idea](https://www.jetbrains.com/))
 todo : )====>(need floadinginJianghu to complete)
@@ -51,3 +53,8 @@ todo : )====>(need floadinginJianghu to complete)
 >mangeLirarian
 
 ![avatar](images/librarian.png)
+
+### TODO
+- resolve error
+For login.已经接受到消息，但是无法登陆，catch到的error为undefined.（查看是否为拦截器问题）
+- test
