@@ -89,8 +89,9 @@ export default {
                 formData.append('book_period', data)
                 formData.append('timestamp', date)
                 var chunck = await modifyBookPeriod(formData)
-                if (chunck === 'modify_success') {
+                if (chunck) {
                     alert('modify success')
+                    this.activities = chunck
                 } else {
                     alert('modify failed')
                 }

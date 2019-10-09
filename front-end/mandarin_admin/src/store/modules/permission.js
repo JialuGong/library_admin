@@ -2,6 +2,7 @@ import { fetchPermission } from '@/api/data'
 import router, { DynamicRoutes } from '@/router/index'
 import { recursionRouter } from '@/utils/recursion-router'
 import dynamicRouter from '@/router/dynamic-router'
+import { getData } from '@/store/modules/permission-data'
 
 export default {
     namespaced: true,
@@ -42,10 +43,14 @@ export default {
     },
     actions: {
         async FETCH_PERMISSION({ commit, state }) {
+            // 添加需要改动--->授权的permisson的模块
+            // permissionModules即是permissionList.data
+            let permissionModules = getData()
+
             let permissionList = await fetchPermission()
-            commit('SET_AVATAR', permissionList.avatar)
-            commit('SET_ACCOUNT', permissionList.name)
-            let routes = recursionRouter(permissionList.data, dynamicRouter)
+            commit('SET_AVATAR', 'http://47.92.141.59/images/avatar.png')
+            commit('SET_ACCOUNT', permissionList.admin_name)
+            let routes = recursionRouter(permissionModules, dynamicRouter)
             let MainContainer = DynamicRoutes.find(v => v.path === '')
             let children = MainContainer.children
             commit('SET_CONTROL_LIST', [...children, ...dynamicRouter])

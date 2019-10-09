@@ -86,20 +86,23 @@ export default {
                 }
             }
         },
-        async postForm(formName, objectName) {
+        postForm(formName, objectName) {
             if (this.submitForm(objectName)) {
                 var formaData = new FormData()
                 var data = formName.deposit
                 var date = this.getDate()
                 formaData.append('reader_deposit', data)
                 formaData.append('timestamp', date)
-                var chunck = await modifyReaderDeposit(formaData)
-                console.log(chunck)
-                if (chunck === 'modify_success') {
-                    alert('modify success')
-                } else {
-                    alert('modify failed')
-                }
+                modifyReaderDeposit(formaData).then(chunck => {
+                    console.log(chunck)
+                    console.log(chunck.data)
+                    if (chunck) {
+                        this.activities = chunck
+                        alert('modify success')
+                    } else {
+                        alert('modify failed')
+                    }
+                })
             }
         },
         getDate() {

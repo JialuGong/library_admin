@@ -89,13 +89,16 @@ export default {
                 formData.append('reader_fine_value', data)
                 formData.append('timestamp', date)
                 var chunck = await modifyBookFine(formData)
-                if (chunck === 'modify_success') {
+                if (chunck) {
                     alert('modify success')
+                    this.activities = chunck
                 } else {
                     alert('modify failed')
                 }
             }
         },
+
+        // 获取当前时间
         getDate() {
             var myDate = new Date()
             var year = myDate.getFullYear()
@@ -103,10 +106,14 @@ export default {
             var day = myDate.getDate()
             return year + '-' + month + '-' + day
         },
+
+        // 检查input内的值是否可以被传输
         async submitForm(objectName) {
             var result = await this.$refs[objectName].validate()
             return result
         },
+
+        // 光标重新设置
         resetForm(formName) {
             this.$refs[formName].resetFields()
         }

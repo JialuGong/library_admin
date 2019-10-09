@@ -5,7 +5,7 @@ import { Message } from 'element-ui'
 const http = {}
 
 var instance = axios.create({
-    timeout: 5000,
+    timeout: 1000,
     baseURL,
     validateStatus(status) {
         switch (status) {

@@ -4,7 +4,7 @@
       <el-form :inline="true" :model="searchData" class="fl">
         <el-input style="display: none;"></el-input>
         <el-form-item label="search librarian">
-          <el-input v-model="searchData.librarian_name" placeholder="name" @keyup.enter.native="onSearch()"></el-input>
+          <el-input v-model="searchData.librarian_name" placeholder="name" @keyup.enter.native="onSearch(searchData.librarian_name,'searchData')"></el-input>
         </el-form-item>
       </el-form>
       <div class="fl">
@@ -63,8 +63,8 @@
         <el-button
             type="text"
             size="small"
-            @click="handleResetPwd(scope.$index, scope.row)"
-        >reset password</el-button>
+            @click="handleDelete(scope.$index, scope.row)"
+        >delete</el-button>
     </div>
 </template>
         </el-table-column>
@@ -82,28 +82,40 @@
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" @close="onDialogClose()">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" label-width="80px">
-        <el-form-item label="Name" prop="librarian_name">
-          <template v-if="dialogTitle=='edit librarian information'">{{ dataForm.librarian_name }}</template>
+        <!-- <el-form-item label="Name" prop="librarian_name">
+          <template v-if="dialogTitle=='edit librarian information'">{{ tableData.librarian_name }}</template>
           <el-input v-else v-model="dataForm.lirarian_name" placeholder="Name"></el-input>
-        </el-form-item>
-            <el-form-item label="Phone" prop="mobile">
-              <el-input v-model="dataForm.librarian_phone" placeholder="Contact Number"></el-input>
+        </el-form-item> -->
+            <el-form-item label="Name" prop="tabName">
+              <el-input v-model="dataForm.tabName" placeholder="librarian name"></el-input>
             </el-form-item>
-            <el-form-item label="E-mail" prop="email">
-              <el-input v-model="dataForm.librarian_email" placeholder="E-mail"></el-input>
+            <el-form-item label="Password" prop="tabPassword">
+              <el-input  v-model="dataForm.tabPassword" placeholder="password"></el-input>
+            </el-form-item>
+            <el-form-item label="Phone" prop="tabPhone">
+              <el-input v-model="dataForm.tabPhone" placeholder="Contact Number"></el-input>
+            </el-form-item>
+            <el-form-item label="E-mail" prop="tabEmail">
+              <el-input v-model="dataForm.tabEmail" placeholder="E-mail"></el-input>
             </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">cancel</el-button>
         <el-button type="primary" @click="onDialogSubmit()" v-if="dialogTitle=='edit librarian information'">submit</el-button>
-        <el-button type="primary" @click="onDialogSubmit()" v-else>create</el-button>
+        <el-button type="primary" @click="onDialogRegisterSubmit()" v-else>create</el-button>
       </div>
     </el-dialog>
   </el-card>
 </template>
 <script>
-import { getAllLib } from '@/api/data'
-import moment from 'moment'
+import {
+    getAllLib,
+    searchLib,
+    deleteLib,
+    editLib,
+    registerLib
+} from '@/api/data'
+// import moment from 'moment'
 export default {
     data() {
         return {
@@ -113,7 +125,7 @@ export default {
             dialogVisible: false,
             dialogTitle: 'register librarian',
             rules: {
-                loginName: [
+                tabName: [
                     {
                         required: true,
                         message: 'Name can not be null',
@@ -126,7 +138,25 @@ export default {
                         trigger: 'blur'
                     }
                 ],
-                mobile: [
+                tabPassword: [
+                    {
+                        required: true,
+                        message: 'password can not be null',
+                        trigger: 'blur'
+                    },
+                    {
+                        min: 1,
+                        max: 50,
+                        message: 'The length of password must be 1-50',
+                        trigger: 'blur'
+                    },
+                    {
+                        pattern: /^[a-zA-Z]\w{5,17}$/,
+                        message: 'The format of password is not correct',
+                        trigger: 'blur'
+                    }
+                ],
+                tabPhone: [
                     {
                         required: true,
                         message: 'Contact number can not be null',
@@ -138,7 +168,7 @@ export default {
                         trigger: 'blur'
                     }
                 ],
-                email: [
+                tabEmail: [
                     {
                         required: true,
                         message: 'Please enter the E-mail address',
@@ -155,11 +185,11 @@ export default {
                 librarian_name: ''
             },
             dataForm: {
-                librarian_id: '',
-                librarian_name: '',
-                auth_admin_name: '',
-                librarian_phone: '',
-                librarian_email: ''
+                tabID: '',
+                tabName: '',
+                tabPassword: '',
+                tabPhone: '',
+                tabEmail: ''
             },
             tableData: []
         }
@@ -170,8 +200,14 @@ export default {
     methods: {
         async initList() {
             const data = await getAllLib()
-            console.log(data)
             this.tableData = data
+        },
+        showPwd() {
+            if (this.pwdType === 'password') {
+                this.pwdType = ''
+            } else {
+                this.pwdType = 'password'
+            }
         },
         handleStatus(row) {},
         // statusFormat(row, column, cellValue) {
@@ -194,12 +230,35 @@ export default {
             }
             this.onSearch()
         },
-        onSearch({ pageNumber = 1 } = {}) {},
-        toDateTime(row, column, cellValue) {
-            return cellValue
-                ? moment(cellValue).format('YYYY-MM-DD HH:mm:ss')
-                : ''
+        // onSearch({ pageNumber = 1 } = {}) {},
+        // toDateTime(row, column, cellValue) {
+        //     return cellValue
+        //         ? moment(cellValue).format('YYYY-MM-DD HH:mm:ss')
+        //         : ''
+        // },
+
+        // for search function
+        async onSearch(data, objectName) {
+            var formData = new FormData()
+            var name = data
+            formData.append('libririan_name', name)
+            if (this.getName(objectName)) {
+                var chunck = await searchLib(formData)
+
+                if (chunck) {
+                    this.tableData = chunck
+                } else {
+                    alert('Name not found')
+                }
+            }
         },
+        async getName(obejectName) {
+            // var chunck = await this.$refs[obejectName].validate()
+            // return chunck
+            return true
+        },
+
+        // for role
         roleFormatter(row, column, cellValue) {
             let result = []
             if (
@@ -213,32 +272,83 @@ export default {
             return result.join('，')
         },
         handleChangeStatus(index, row) {},
-        handleResetPwd(index, row) {
-            this.$confirm('Are you sure to reset the password？', 'warning', {
+
+        // for delete function
+        handleDelete(index, row) {
+            this.$confirm('Are you sure to delte the librarian ？', 'warning', {
                 confirmButtonText: 'confirm',
                 cancelButtonText: 'cancel',
                 type: 'warning'
-            }).then(() => {})
+            }).then(async () => {
+                var id = row.id
+                var submitData = new FormData()
+                submitData.append('librarian_id', id)
+                var chunck = await deleteLib(submitData)
+                if (chunck) {
+                    alert('Delete success')
+                    this.tableData = this.initList()
+                } else {
+                    alert('Delete failed')
+                }
+            })
         },
         handleEdit(index, row) {
             this.dialogVisible = true
             this.dialogTitle = 'edit librarian information'
-            this.dataForm.tempRoleIds = []
-            for (let x of Object.keys(this.dataForm)) {
-                if (
-                    x === 'tempRoleIds' &&
-                    typeof row.roleList === 'object' &&
-                    row.roleList.length > 0
-                ) {
-                    for (let item of row.roleList) {
-                        this.dataForm.tempRoleIds.push(item.id)
-                    }
-                } else {
-                    this.dataForm[x] = row[x]
-                }
+            var value = {
+                tabID: row.librarian_id,
+                tabName: row.librarian_name,
+                tabPassword: row.librarian_password,
+                tabPhone: row.librarian_phone,
+                tabEmail: row.librarian_email
+            }
+            this.dataForm = value
+            // console.log(row.librarian_name)
+            // this.dataForm.tempRoleIds = []
+            // for (let x of Object.keys(this.dataForm)) {
+            //     if (
+            //         x === 'tempRoleIds' &&
+            //         typeof row.roleList === 'object' &&
+            //         row.roleList.length > 0
+            //     ) {
+            //         for (let item of row.roleList) {
+            //             this.dataForm.tempRoleIds.push(item.id)
+            //         }
+            //     } else {
+            //         this.dataForm[x] = row[x]
+            //     }
+            // }
+        },
+        async onDialogSubmit() {
+            var submitData = new FormData()
+            submitData.append('librarian_id', this.dataForm.tabID)
+            submitData.append('librarian_name', this.dataForm.tabName)
+            submitData.append('librarian_password', this.dataForm.tabPassword)
+            submitData.append('librarian_phone', this.dataForm.tabPhone)
+            submitData.append('librarian_email', this.dataForm.tabEmail)
+            var chunck = await editLib(submitData)
+            if (chunck) {
+                alert('edit success')
+                this.tableData = this.initList()
+            } else {
+                alert('edit failed')
             }
         },
-        onDialogSubmit() {}
+        async onDialogRegisterSubmit() {
+            var submitData = new FormData()
+            submitData.append('librarian_id', this.dataForm.tabID)
+            submitData.append('librarian_name', this.dataForm.tabName)
+            submitData.append('librarian_password', this.dataForm.tabPassword)
+            submitData.append('librarian_phone', this.dataForm.tabPhone)
+            submitData.append('librarian_email', this.dataForm.tabEmail)
+            var chunck = await registerLib(submitData)
+            if (chunck) {
+                alert('add  success')
+                this.tableData = this.initList()
+            } else {
+                alert('add failed')
+            }
+        }
     }
 }
 </script>

@@ -36,3 +36,19 @@ export function modifyBookFine(data) {
 export function modifyBookPeriod(data) {
     return axios.post('/mandarin/admin/modifyBookPeriod', data)
 }
+
+export function searchLib(data) {
+    return axios.post('/mandarin/admin/searchLib', data)
+}
+
+export function deleteLib(data) {
+    return axios.post('/mandarin/admin/deleteLib', data)
+}
+
+export function editLib(data) {
+    return axios.post('/mandarin/admin/editLib', data)
+}
+
+export function registerLib(data) {
+    return axios.post('/mandarin/admin/registerLib', data)
+}
