@@ -4,7 +4,7 @@
 > front-end :[Huaiyu Gong](https://github.com/JialuGong)<br>
 > back-end :[floatinjianghu](https://github.com/floatinjianghu)
 
-### how to run
+### How to run
 ###### addtional remarks
 front-end port:8001
 back-end portt:8080
@@ -32,7 +32,7 @@ back-end portt:8080
     npm install
     node apis.js
     ```
-- ps：若npminstall较慢，请切换到淘宝源
+- ps：若npm install较慢，请切换到淘宝源
 - pss：对于nvm出现无法安装的问题：请在nvm的setting.txt中添加淘宝源
 
 
@@ -86,7 +86,8 @@ mvn spring-boot:run
 ![avatar](images/librarian.png)
 
 
-### TODO
+### TODOS
 - resolve error
-For login.已经接受到消息，但是无法登陆，catch到的error为undefined.（查看是否为拦截器问题）
+	- token超时
+	- 数据的双向绑定
 - test
