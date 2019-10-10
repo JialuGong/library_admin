@@ -35,8 +35,39 @@ back-end portt:8080
 - ps：若npminstall较慢，请切换到淘宝源
 - pss：对于nvm出现无法安装的问题：请在nvm的setting.txt中添加淘宝源
 
-###### back-end(need to install [idea](https://www.jetbrains.com/))
-todo : )====>(need floadinginJianghu to complete)
+
+
+###### back-end(本模块只涉及到admin后端，数据库与已有数据库不一致)
+
+1. 环境准备:
+- mysql 5.6/5.7  
+- 安装idea(可学校邮箱认证)  
+- tomcat 8.5  
+- jdk 1.8  
+
+2.项目运行:  
+- 数据库  
+  - 数据库命名:mandarin  
+  - 用户名:root  
+  - 密码:root  
+  （或者按照自己电脑本身的mysql用户名密码，但要在application.properties里面修改配置文件)  
+- 配置idea的tomcat，jdk  
+- 导入项目后  
+  - 点击idea最右边菜单栏中的maven，分别点击clean:clean→install:install→springboot:run
+  - （或者:点击idea下方terminal依次输入以下命令行:  
+```shell
+mvn clean
+```
+```shell
+mvn install
+```
+```shell
+mvn spring-boot:run
+```
+完成上述步骤后，接口即可使用。
+
+
+
 
 ### the GUI
 >login
@@ -53,6 +84,7 @@ todo : )====>(need floadinginJianghu to complete)
 >mangeLirarian
 
 ![avatar](images/librarian.png)
+
 
 ### TODO
 - resolve error
