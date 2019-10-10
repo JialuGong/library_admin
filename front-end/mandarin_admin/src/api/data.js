@@ -6,7 +6,7 @@ export function login(data) {
 }
 
 export function fetchPermission() {
-    return axios.get('/mandarin/admin/info')
+    return axios.get('/mandarin/admin/getInfo')
 }
 
 export function getAllLib() {

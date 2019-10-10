@@ -115,7 +115,9 @@ import {
     editLib,
     registerLib
 } from '@/api/data'
+import { Message } from 'element-ui'
 // import moment from 'moment'
+// TODOS 验证数据类型是否正确
 export default {
     data() {
         return {
@@ -149,12 +151,12 @@ export default {
                         max: 50,
                         message: 'The length of password must be 1-50',
                         trigger: 'blur'
-                    },
-                    {
-                        pattern: /^[a-zA-Z]\w{5,17}$/,
-                        message: 'The format of password is not correct',
-                        trigger: 'blur'
                     }
+                    // {
+                    //     pattern: /^[a-zA-Z]\w{5,17}$/,
+                    //     message: 'The format of password is not correct',
+                    //     trigger: 'blur'
+                    // }
                 ],
                 tabPhone: [
                     {
@@ -200,6 +202,10 @@ export default {
     methods: {
         async initList() {
             const data = await getAllLib()
+            this.tableData = data
+        },
+        async getNewList() {
+            let data = await getAllLib()
             this.tableData = data
         },
         showPwd() {
@@ -319,35 +325,37 @@ export default {
             //     }
             // }
         },
-        async onDialogSubmit() {
-            var submitData = new FormData()
+        onDialogSubmit() {
+            let submitData = new FormData()
             submitData.append('librarian_id', this.dataForm.tabID)
             submitData.append('librarian_name', this.dataForm.tabName)
             submitData.append('librarian_password', this.dataForm.tabPassword)
             submitData.append('librarian_phone', this.dataForm.tabPhone)
             submitData.append('librarian_email', this.dataForm.tabEmail)
-            var chunck = await editLib(submitData)
-            if (chunck) {
-                alert('edit success')
-                this.tableData = this.initList()
-            } else {
-                alert('edit failed')
-            }
+            editLib(submitData)
+                .then(chunck => {
+                    Message.success('edit success')
+                    this.tableData = this.getNewList()
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
-        async onDialogRegisterSubmit() {
-            var submitData = new FormData()
+        onDialogRegisterSubmit() {
+            let submitData = new FormData()
             submitData.append('librarian_id', this.dataForm.tabID)
             submitData.append('librarian_name', this.dataForm.tabName)
             submitData.append('librarian_password', this.dataForm.tabPassword)
             submitData.append('librarian_phone', this.dataForm.tabPhone)
             submitData.append('librarian_email', this.dataForm.tabEmail)
-            var chunck = await registerLib(submitData)
-            if (chunck) {
-                alert('add  success')
-                this.tableData = this.initList()
-            } else {
-                alert('add failed')
-            }
+            registerLib(submitData)
+                .then(chunck => {
+                    Message.success('register success')
+                    this.tableData = this.getNewList()
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
     }
 }

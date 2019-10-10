@@ -98,12 +98,15 @@ export default {
         },
         async login() {
             try {
-                var formData = new FormData()
-                formData.append('admin_name', this.loginForm.admin_name)
-                formData.append('admin_password', this.loginForm.password)
+                let formData = new FormData()
+                let name = this.loginForm.admin_name
+                let password = this.loginForm.admin_password
+                formData.append('admin_name', name)
+                formData.append('admin_password', password)
                 let data = await login(formData)
                 let token = data.token
                 this.$store.commit('LOGIN_IN', token)
+                this.$store.commit('SET_USERINFO', name, password)
                 this.$router.replace('/')
             } catch (e) {
                 console.log(e)

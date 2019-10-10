@@ -2,6 +2,8 @@ import axios from 'axios'
 import store from '@/store/index.js'
 import baseURL from './baseUrl'
 import { Message } from 'element-ui'
+import { login } from '@/api/data'
+
 const http = {}
 
 // 创建axios实例
@@ -44,14 +46,14 @@ var instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-    function(config) {
+    function (config) {
         // 请求头添加token
         if (store.state.UserToken) {
-            config.headers.Authorization = `Bearer ${store.state.UserToken}`
+            config.headers.Authorization = `${store.state.UserToken}`
         }
         return config
     },
-    function(error) {
+    function (error) {
         return Promise.reject(error)
     }
 )
@@ -74,7 +76,7 @@ instance.interceptors.response.use(
     }
 )
 
-http.get = function(url, options) {
+http.get = function (url, options) {
     let loading
     if (!options || options.isShowLoading !== false) {
         loading = document.getElementById('ajaxLoading')
@@ -91,6 +93,27 @@ http.get = function(url, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
+                    if (response.message === 'Authentication_failed') {
+                        if (store.UserName && store.UserPassword) {
+                            let formData = new FormData()
+                            formData.append('admin_name', store.UserName)
+                            formData.append('admin_password', store.UserPassword)
+                            login(formData)
+                                .then(chunck => {
+                                    if (chunck.code === 1) {
+                                        store.commit('LOGIN_IN', chunck.data.token)
+                                    } else {
+                                        store.commit('LOGIN_OUT')
+                                        reject(chunck.message)
+                                    }
+                                })
+                                .catch(err => {
+                                    store.commit('LOGIN_OUT')
+                                    console.log(err)
+                                })
+                        }
+                    }
+
                     Message.error({
                         message: response.message
                     })
@@ -103,7 +126,7 @@ http.get = function(url, options) {
     })
 }
 
-http.post = function(url, data, options) {
+http.post = function (url, data, options) {
     let loading
     if (!options || options.isShowLoading !== false) {
         loading = document.getElementById('ajaxLoading')
@@ -120,8 +143,28 @@ http.post = function(url, data, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
+                    if (response.message === 'Authentication_failed') {
+                        if (store.UserName && store.UserPassword) {
+                            let formData = new FormData()
+                            formData.append('admin_name', store.UserName)
+                            formData.append('admin_password', store.UserPassword)
+                            login(formData)
+                                .then(chunck => {
+                                    if (chunck.code === 1) {
+                                        store.commit('LOGIN_IN', chunck.data.token)
+                                    } else {
+                                        store.commit('LOGIN_OUT')
+                                        reject(chunck.message)
+                                    }
+                                })
+                                .catch(err => {
+                                    store.commit('LOGIN_OUT')
+                                    console.log(err)
+                                })
+                        }
+                    }
                     Message.error({
-                        message: response.msg
+                        message: response.message
                     })
                     reject(response.message)
                 }
