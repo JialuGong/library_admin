@@ -1,25 +1,49 @@
 <template>
     <div class="login-container">
-        <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+        <el-form
+            class="login-form"
+            autocomplete="on"
+            :model="loginForm"
+            :rules="loginRules"
+            ref="loginForm"
+            label-position="left"
+        >
             <h3 class="title">Mandarin Library System For Admin</h3>
             <el-form-item prop="username">
                 <span class="svg-container svg-container_login">
                     <svg-icon icon-class="user" />
                 </span>
-                <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+                <el-input
+                    name="username"
+                    type="text"
+                    v-model="loginForm.admin_name"
+                    autocomplete="on"
+                    placeholder="admin_name"
+                />
             </el-form-item>
-            <el-form-item prop="password">
+            <el-form-item prop="admin_password">
                 <span class="svg-container">
                     <svg-icon icon-class="password"></svg-icon>
                 </span>
-                <el-input name="password" :type="pwdType" @keyup.enter.native="login" v-model="loginForm.password" autoComplete="on"
-                placeholder="password"></el-input>
-                <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
+                <el-input
+                    name="password"
+                    :type="pwdType"
+                    @keyup.enter.native="login"
+                    v-model="loginForm.admin_password"
+                    autocomplete="on"
+                    placeholder="password"
+                ></el-input>
+                <span class="show-pwd" @click="showPwd">
+                    <svg-icon icon-class="eye" />
+                </span>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="login">
-                Sign in
-                </el-button>
+                <el-button
+                    type="primary"
+                    style="width:100%;"
+                    :loading="loading"
+                    @click.native.prevent="login"
+                >Sign in</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -38,25 +62,25 @@ export default {
         }
         const validatePass = (rule, value, callback) => {
             if (value.length < 5) {
-                callback(new Error('The length of password can\'t less than 5'))
+                callback(new Error("The length of password can't less than 5"))
             } else {
                 callback()
             }
         }
         return {
             loginForm: {
-                username: 'admin',
-                password: '123456'
+                admin_name: 'admin',
+                admin_password: 'admin'
             },
             loginRules: {
-                username: [
+                admin_name: [
                     {
                         required: true,
                         trigger: 'blur',
                         validator: validateUsername
                     }
                 ],
-                password: [
+                admin_password: [
                     { required: true, trigger: 'blur', validator: validatePass }
                 ]
             },
@@ -74,9 +98,15 @@ export default {
         },
         async login() {
             try {
-                let data = await login(this.loginForm)
+                let formData = new FormData()
+                let name = this.loginForm.admin_name
+                let password = this.loginForm.admin_password
+                formData.append('admin_name', name)
+                formData.append('admin_password', password)
+                let data = await login(formData)
                 let token = data.token
                 this.$store.commit('LOGIN_IN', token)
+                this.$store.commit('SET_USERINFO', name, password)
                 this.$router.replace('/')
             } catch (e) {
                 console.log(e)
@@ -173,9 +203,9 @@ $light_gray: #eee;
         cursor: pointer;
         user-select: none;
     }
-    .fontcontainer{
-        color:#889aa4;
-        padding-left:10px;
+    .fontcontainer {
+        color: #889aa4;
+        padding-left: 10px;
     }
 }
 </style>

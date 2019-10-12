@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
-public class AdminService {
+public class AdminService{
     @Autowired
     AdminRepository adminRepository;
     public int addAdmin(String name, String password, String phone, String email) {

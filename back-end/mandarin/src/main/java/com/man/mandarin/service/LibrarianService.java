@@ -10,8 +10,12 @@ public class LibrarianService {
     @Autowired
     LibrarianRepository librarianRepository;
     public int addLibrarian(String name, String password, String phone, String email) {
-        Librarian librarian = new Librarian(name,password,phone,email);
-        librarianRepository.save(librarian);
+        Librarian librarian=new Librarian(name,password,phone,email);
+        try{
+            librarianRepository.save(librarian);
+        }catch (Exception e){
+            return 0;
+        }
         return 1;
     }
     public List<Librarian> queryByName(String name){
@@ -22,8 +26,11 @@ public class LibrarianService {
         List<Librarian> librarianList = librarianRepository.findAll();
         return librarianList;
     }
-    public  void deleteLibByName(String name){
+    public void deleteLibByName(String name){
         librarianRepository.deleteByName(name);
     }
 
+    public void deleteLibById(int id){
+        librarianRepository.deleteById(id);
+    }
 }

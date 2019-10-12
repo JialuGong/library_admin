@@ -2,11 +2,11 @@ import axios from '@/config/httpConfig'
 
 export function login(data) {
     console.log(`the loging data is ${data}`)
-    return axios.post('/mandarin/admin/login')
+    return axios.post('/mandarin/admin/login', data)
 }
 
 export function fetchPermission() {
-    return axios.get('/mandarin/admin/info')
+    return axios.get('/mandarin/admin/getInfo')
 }
 
 export function getAllLib() {

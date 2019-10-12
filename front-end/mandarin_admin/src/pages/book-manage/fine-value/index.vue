@@ -1,9 +1,11 @@
+<!--TODOS  1、添加滚动条 2、思考如何完成双向绑定-->
 <template>
     <el-card>
         <div class="time-line-bar">
             <el-divider>The last three modify records</el-divider>
             <el-timeline>
                 <el-timeline-item
+                    v-model="activities"
                     v-for="(activity, index) in activities"
                     :key="index"
                     :timestamp="activity.timestamp"
@@ -48,6 +50,7 @@
 
 <script>
 import { getBookFine, modifyBookFine } from '@/api/data'
+import { Message } from 'element-ui'
 export default {
     data() {
         return {
@@ -81,20 +84,26 @@ export default {
             var chunck = await getBookFine()
             this.activities = chunck
         },
-        async postForm(formName, objectName) {
+        getNewList() {
+            getBookFine().then(chunck => {
+                this.activities = chunck
+            })
+        },
+        postForm(formName, objectName) {
             if (this.submitForm(objectName)) {
                 var formData = new FormData()
-                var data = formName.value
-                var date = this.getDate()
-                formData.append('reader_fine_value', data)
+                let data = formName.value
+                let date = this.getDate()
+                formData.append('book_fine_value', data)
                 formData.append('timestamp', date)
-                var chunck = await modifyBookFine(formData)
-                if (chunck) {
-                    alert('modify success')
-                    this.activities = chunck
-                } else {
-                    alert('modify failed')
-                }
+                modifyBookFine(formData)
+                    .then(chunck => {
+                        Message.success('Modify Success')
+                        this.$refs[formName].resetFields()
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             }
         },
 

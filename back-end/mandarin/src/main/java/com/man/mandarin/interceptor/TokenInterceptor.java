@@ -1,8 +1,6 @@
 package com.man.mandarin.interceptor;
 import com.alibaba.fastjson.JSONObject;
-import com.man.mandarin.entity.Admin;
 import com.man.mandarin.util.TokenUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -23,7 +21,7 @@ public class TokenInterceptor implements HandlerInterceptor{
       return true;
     }
     response.setCharacterEncoding("utf-8");
-    String token = request.getHeader("admin_token");
+    String token = request.getHeader("Authorization");
     if (token != null) {
       boolean result = TokenUtil.verify(token);
       if (result) {

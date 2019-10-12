@@ -6,7 +6,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * 拦截器配置
  */
@@ -19,8 +18,9 @@ public class IntercepterConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry){
+//        //amdin
 //        String excludePath= "/apis/mandarin/admin/getAllLib";
-                String excludePath= "/apis/mandarin/admin/login";
+          String excludePath1= "/apis/mandarin/admin/login";
 //        excludePath.add("/apis/mandarin/admin/login");
 //        excludePath.add("/apis/mandarin/admin/registerLib");
 //        excludePath.add("/apis/mandarin/admin/getAllLib");
@@ -34,7 +34,12 @@ public class IntercepterConfig implements WebMvcConfigurer {
 //        excludePath.add("/apis/mandarin/admin/getReaderDeposit");
 //        excludePath.add("/apis/mandarin/admin/searchLib");
 //        excludePath.add("/apis/mandarin/admin/getInfo");
-        registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePath);
+
+//        //librarian
+//        String excludePath2= "/apis/mandarin/librarian/login";
+
+        registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePath1);
+//        registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePath2);
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 }

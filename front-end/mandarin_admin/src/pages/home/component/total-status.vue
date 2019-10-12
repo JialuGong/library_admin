@@ -15,7 +15,7 @@ export default {
     data() {
         return {
             src:
-                'https://cdn-ossd.zipjpg.com/free/157a0cdbc2c9e3cac0294852b06bb8f1_2_2_art.png'
+                'http://47.92.141.59/images/bg.png'
         }
     }
 }

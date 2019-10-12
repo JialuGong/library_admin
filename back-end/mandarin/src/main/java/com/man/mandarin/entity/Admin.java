@@ -1,10 +1,9 @@
 package com.man.mandarin.entity;
 
 import javax.persistence.*;
-
 @Entity
         @Table(name="admin")
-public class Admin{
+public class Admin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")

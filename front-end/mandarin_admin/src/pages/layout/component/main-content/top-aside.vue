@@ -1,3 +1,4 @@
+<!--TODOS 1.检验是否存在log-out无法退出的情况-->
 <template>
     <aside class="aside__top">
         <span
@@ -58,7 +59,7 @@ export default {
             this.$store.commit('toggleNavCollapse')
         },
         loginOut() {
-            this.$store.commit('LOGIN_OUT')
+            this.$store.commit('REALLY_OUT')
             /* 防止切换角色时addRoutes重复添加路由导致出现警告 */
             window.location.reload()
         }

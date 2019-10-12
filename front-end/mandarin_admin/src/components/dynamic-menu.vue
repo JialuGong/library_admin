@@ -1,3 +1,4 @@
+
 <template>
   <div class='menu-container'>
     <template v-for='v in menuList'>

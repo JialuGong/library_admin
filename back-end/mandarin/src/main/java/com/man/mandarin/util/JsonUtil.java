@@ -26,20 +26,17 @@ public class JsonUtil {
         return jsonObject;
     }
     public JSON admintoJson(String status,List<Admin> admins,String error_type){
-        JSONArray json = new JSONArray();
         JSONObject jsonObject = new JSONObject();
             if(status=="success"){
                 jsonObject.put("code",1);
                 jsonObject.put("message","success");
                 jsonObject.put("data",adtoJson(admins));
-                json.add(jsonObject);
             }else if(status=="fail"){
                 jsonObject.put("code",0);
                 jsonObject.put("message",error_type);
                 jsonObject.put("data",null);
-                json.add(jsonObject);
             }
-            return json;
+            return jsonObject;
     }
     public JSON librariantoJson(String status,List<Librarian> librarians,String error_type){
         JSONObject jsonObject = new JSONObject();
