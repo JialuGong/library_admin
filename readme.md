@@ -4,7 +4,7 @@
 > front-end :[Huaiyu Gong](https://github.com/JialuGong)<br>
 > back-end :[floatinjianghu](https://github.com/floatinjianghu)
 
-### how to run
+### How to run
 ###### addtional remarks
 front-end port:8001
 back-end portt:8080
@@ -32,6 +32,10 @@ back-end portt:8080
     npm install
     node apis.js
     ```
+- ps：若npm install较慢，请切换到淘宝源
+- pss：对于nvm出现无法安装的问题：请在nvm的setting.txt中添加淘宝源
+
+
 
 ###### back-end(本模块只涉及到admin后端，数据库与已有数据库不一致)
 <<<<<<< HEAD
@@ -79,6 +83,10 @@ mvn install
 mvn spring-boot:run
 ```
 完成上述步骤后，接口即可使用。
+
+
+
+
 ### the GUI
 >login
 
@@ -94,3 +102,10 @@ mvn spring-boot:run
 >mangeLirarian
 
 ![avatar](images/librarian.png)
+
+
+### TODOS
+- resolve error
+	- token超时
+	- 数据的双向绑定
+- test
