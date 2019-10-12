@@ -1,10 +1,9 @@
 package com.man.mandarin.entity;
 
 import javax.persistence.*;
-
 @Entity
         @Table(name="admin")
-public class Admin{
+public class Admin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
@@ -21,6 +20,10 @@ public class Admin{
     public Admin() {
     }
 
+    public Admin(String name, String password){
+        this.name = name;
+        this.password = password;
+    }
     public Admin(String name, String password, String phone, String email) {
         super();
         this.name = name;

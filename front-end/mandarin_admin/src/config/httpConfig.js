@@ -93,8 +93,7 @@ http.get = function (url, options) {
                 }
                 if (response.code === 1) {
                     resolve(response.data)
-                } else {
-                    // 对于token失效，如果本地存储有用户名和密码，重新进行login操作，获取token（post操作同)
+// 对于token失效，如果本地存储有用户名和密码，重新进行login操作，获取token（post操作同)
                     store.commit('LOGIN_OUT')
                     Message.error({
                         message: response.message
@@ -125,7 +124,9 @@ http.post = function (url, data, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
+
                     store.commit('LOGIN_OUT')
+
                     Message.error({
                         message: response.message
                     })

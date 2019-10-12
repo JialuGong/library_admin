@@ -1,7 +1,6 @@
 package com.man.mandarin.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.man.mandarin.entity.Admin;
@@ -11,15 +10,11 @@ import com.man.mandarin.service.AdminService;
 import com.man.mandarin.service.LibrarianService;
 import com.man.mandarin.service.RuleService;
 import com.man.mandarin.util.JsonUtil;
+import com.man.mandarin.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -46,7 +41,16 @@ public JSON login(
             return jsonUtil.messagetoJson("fail","name_not_found");
         } else {
         if (admins.get(0).getPassword().equals(password)) {
-            return jsonUtil.messagetoJson("success",null);
+            JSONObject jsonObject=new JSONObject();
+            //for token
+            Admin admin=new Admin(name,password);
+            JSONObject tokenJsonObject=new JSONObject();
+            String token = TokenUtil.sign(admin);
+            tokenJsonObject.put("token",token);
+            jsonObject.put("code",1);
+            jsonObject.put("message","success");
+            jsonObject.put("data",tokenJsonObject);
+            return jsonObject;
         } else {
             return jsonUtil.messagetoJson("fail","password_error");
         }
@@ -112,6 +116,7 @@ public JSON editLib(
         if (librarians.size()!=0&&librarians.get(0).getId()!=id) {
             return jsonUtil.messagetoJson("fail","name_existed");
         } else
+            librarianService.addLibrarian(name, password, phone, email);
             return jsonUtil.messagetoJson("success",null);
         }else
         return null;
