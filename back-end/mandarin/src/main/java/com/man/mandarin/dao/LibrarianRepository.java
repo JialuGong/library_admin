@@ -10,6 +10,9 @@ import java.util.List;
 @Repository
 public interface LibrarianRepository extends JpaRepository<Librarian, Integer>, JpaSpecificationExecutor<Librarian> {
     List<Librarian> findByName(String name);
+    List<Librarian> findAll();
     @Transactional
     void deleteByName(String name);
+    @Transactional
+    void deleteById(int id);
 }

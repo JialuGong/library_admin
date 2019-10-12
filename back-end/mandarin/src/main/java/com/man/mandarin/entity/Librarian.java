@@ -3,7 +3,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="librarian")
-public class Librarian{
+public class Librarian extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "librarian_id")
