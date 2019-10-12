@@ -1,17 +1,6 @@
 <!--TODOS  1、添加滚动条 2、思考如何完成双向绑定-->
 <template>
     <el-card>
-        <div class="time-line-bar">
-            <el-divider>The last three modify records</el-divider>
-            <el-timeline>
-                <el-timeline-item
-                    v-model="activities"
-                    v-for="(activity, index) in activities"
-                    :key="index"
-                    :timestamp="activity.timestamp"
-                >{{activity.book_fine_value}}</el-timeline-item>
-            </el-timeline>
-        </div>
         <div class="modify-value-bar">
             <el-divider>Modify the penalty</el-divider>
             <el-form
@@ -31,7 +20,6 @@
                 >
                     <el-input
                         suffix-icon="iconfont icon-sousuo"
-                        type="value"
                         v-model.number="numberValidateForm.value"
                         autocomplete="off"
                     ></el-input>
@@ -45,12 +33,24 @@
                 </el-form-item>
             </el-form>
         </div>
+        <div class="time-line-bar">
+            <el-divider> Modify records</el-divider>
+            <el-timeline>
+                <el-timeline-item
+                    v-model="activities"
+                    v-for="(activity, index) in activities"
+                    :key="index"
+                    :timestamp="activity.timestamp"
+                >{{activity.book_fine_value}}</el-timeline-item>
+            </el-timeline>
+        </div>
     </el-card>
 </template>
 
 <script>
 import { getBookFine, modifyBookFine } from '@/api/data'
 import { Message } from 'element-ui'
+import { getDate } from '@/utils/time-stamp'
 export default {
     data() {
         return {
@@ -93,7 +93,7 @@ export default {
             if (this.submitForm(objectName)) {
                 var formData = new FormData()
                 let data = formName.value
-                let date = this.getDate()
+                let date = getDate()
                 formData.append('book_fine_value', data)
                 formData.append('timestamp', date)
                 modifyBookFine(formData)
@@ -105,15 +105,6 @@ export default {
                         console.log(error)
                     })
             }
-        },
-
-        // 获取当前时间
-        getDate() {
-            var myDate = new Date()
-            var year = myDate.getFullYear()
-            var month = myDate.getMonth()
-            var day = myDate.getDate()
-            return year + '-' + month + '-' + day
         },
 
         // 检查input内的值是否可以被传输

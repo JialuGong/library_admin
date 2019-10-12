@@ -1,15 +1,5 @@
 <template>
     <el-card>
-        <div class="time-line-bar">
-            <el-divider>The last three modify records</el-divider>
-            <el-timeline>
-                <el-timeline-item
-                    v-for="(activity, index) in activities"
-                    :key="index"
-                    :timestamp="activity.timestamp"
-                >{{activity.book_period}}</el-timeline-item>
-            </el-timeline>
-        </div>
         <div class="modify-period-bar">
             <el-divider>Modify the return period</el-divider>
             <el-form
@@ -43,11 +33,23 @@
                 </el-form-item>
             </el-form>
         </div>
+        <div class="time-line-bar">
+            <el-divider>The last three modify records</el-divider>
+            <el-timeline>
+                <el-timeline-item
+                    v-for="(activity, index) in activities"
+                    :key="index"
+                    :timestamp="activity.timestamp"
+                >{{activity.book_period}}</el-timeline-item>
+            </el-timeline>
+        </div>
     </el-card>
 </template>
 
 <script>
 import { getBookPeriod, modifyBookPeriod } from '@/api/data'
+import { Message } from 'element-ui'
+import { getDate } from '@/utils/time-stamp'
 export default {
     data() {
         return {
@@ -81,32 +83,21 @@ export default {
             var chunck = await getBookPeriod()
             this.activities = chunck
         },
-        async postForm(formName, objectName) {
+        postForm(formName, objectName) {
             if (this.submitForm(objectName)) {
                 var formData = new FormData()
                 var data = formName.period
-                var date = this.getDate()
+                var date = getDate()
                 formData.append('book_period', data)
                 formData.append('timestamp', date)
-                var chunck = await modifyBookPeriod(formData)
-                if (chunck) {
-                    alert('modify success')
-                    this.activities = chunck
-                } else {
-                    alert('modify failed')
-                }
+                modifyBookPeriod(formData).then(chunck => {
+                    Message.success('Modify success')
+                })
             }
         },
         async submitForm(formName) {
             var result = await this.$refs[formName].validate()
             return result
-        },
-        getDate() {
-            var myDate = new Date()
-            var year = myDate.getFullYear()
-            var month = myDate.getMonth()
-            var day = myDate.getDate()
-            return year + '-' + month + '-' + day
         },
         resetForm(formName) {
             this.$refs[formName].resetFields()
