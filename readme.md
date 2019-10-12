@@ -46,7 +46,7 @@ back-end portt:8080
 - jdk 1.8  
 
 2.项目运行:  
-- 数据库  
+- 数据库
   - 数据库命名:mandarin  
   - 用户名:root  
   - 密码:root  
