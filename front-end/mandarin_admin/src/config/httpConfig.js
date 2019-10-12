@@ -93,6 +93,7 @@ http.get = function (url, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
+                    // 对于token失效，如果本地存储有用户名和密码，重新进行login操作，获取token（post操作同）
                     if (response.message === 'Authentication_failed') {
                         if (store.UserName && store.UserPassword) {
                             let formData = new FormData()
@@ -103,7 +104,8 @@ http.get = function (url, options) {
                                     if (chunck.code === 1) {
                                         store.commit('LOGIN_IN', chunck.data.token)
                                     } else {
-                                        store.commit('LOGIN_OUT')
+                                        // 如果根据本地存储的用户名和密码是错误，则消除token与用户名与密码（post操作同）
+                                        store.commit('REALLY_OUT')
                                         reject(chunck.message)
                                     }
                                 })
@@ -153,12 +155,12 @@ http.post = function (url, data, options) {
                                     if (chunck.code === 1) {
                                         store.commit('LOGIN_IN', chunck.data.token)
                                     } else {
-                                        store.commit('LOGIN_OUT')
+                                        store.commit('REALLY_OUT')
                                         reject(chunck.message)
                                     }
                                 })
                                 .catch(err => {
-                                    store.commit('LOGIN_OUT')
+                                    store.commit('REALLY_OUT')
                                     console.log(err)
                                 })
                         }
