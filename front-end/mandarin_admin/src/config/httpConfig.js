@@ -1,8 +1,9 @@
+
+// TODOS token失效验证
 import axios from 'axios'
 import store from '@/store/index.js'
 import baseURL from './baseUrl'
 import { Message } from 'element-ui'
-import { login } from '@/api/data'
 
 const http = {}
 
@@ -93,29 +94,8 @@ http.get = function (url, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
-                    // 对于token失效，如果本地存储有用户名和密码，重新进行login操作，获取token（post操作同）
-                    if (response.message === 'Authentication_failed') {
-                        if (store.UserName && store.UserPassword) {
-                            let formData = new FormData()
-                            formData.append('admin_name', store.UserName)
-                            formData.append('admin_password', store.UserPassword)
-                            login(formData)
-                                .then(chunck => {
-                                    if (chunck.code === 1) {
-                                        store.commit('LOGIN_IN', chunck.data.token)
-                                    } else {
-                                        // 如果根据本地存储的用户名和密码是错误，则消除token与用户名与密码（post操作同）
-                                        store.commit('REALLY_OUT')
-                                        reject(chunck.message)
-                                    }
-                                })
-                                .catch(err => {
-                                    store.commit('LOGIN_OUT')
-                                    console.log(err)
-                                })
-                        }
-                    }
-
+                    // 对于token失效，如果本地存储有用户名和密码，重新进行login操作，获取token（post操作同)
+                    store.commit('LOGIN_OUT')
                     Message.error({
                         message: response.message
                     })
@@ -145,26 +125,7 @@ http.post = function (url, data, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
-                    if (response.message === 'Authentication_failed') {
-                        if (store.UserName && store.UserPassword) {
-                            let formData = new FormData()
-                            formData.append('admin_name', store.UserName)
-                            formData.append('admin_password', store.UserPassword)
-                            login(formData)
-                                .then(chunck => {
-                                    if (chunck.code === 1) {
-                                        store.commit('LOGIN_IN', chunck.data.token)
-                                    } else {
-                                        store.commit('REALLY_OUT')
-                                        reject(chunck.message)
-                                    }
-                                })
-                                .catch(err => {
-                                    store.commit('REALLY_OUT')
-                                    console.log(err)
-                                })
-                        }
-                    }
+                    store.commit('LOGIN_OUT')
                     Message.error({
                         message: response.message
                     })
@@ -172,6 +133,7 @@ http.post = function (url, data, options) {
                 }
             })
             .catch(e => {
+                store.commit('LOGIN_OUT')
                 console.log(e)
             })
     })
