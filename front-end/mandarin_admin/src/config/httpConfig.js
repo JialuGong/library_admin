@@ -1,5 +1,3 @@
-
-// TODOS token失效验证
 import axios from 'axios'
 import store from '@/store/index.js'
 import baseURL from './baseUrl'
@@ -93,11 +91,12 @@ http.get = function (url, options) {
                 }
                 if (response.code === 1) {
                     resolve(response.data)
-// 对于token失效，如果本地存储有用户名和密码，重新进行login操作，获取token（post操作同)
-                    store.commit('LOGIN_OUT')
-                    Message.error({
-                        message: response.message
-                    })
+                } else {
+                    if (response.message === 'Authentication_failed') {
+                        store.commit('LOGIN_OUT')
+                    } else {
+                        Message.error(response.message)
+                    }
                     reject(response.message)
                 }
             })
@@ -124,12 +123,11 @@ http.post = function (url, data, options) {
                 if (response.code === 1) {
                     resolve(response.data)
                 } else {
-
-                    store.commit('LOGIN_OUT')
-
-                    Message.error({
-                        message: response.message
-                    })
+                    if (response.message === 'Authentication_failed') {
+                        store.commit('LOGIN_OUT')
+                    } else {
+                        Message.error(response.message)
+                    }
                     reject(response.message)
                 }
             })
