@@ -24,7 +24,7 @@ back-end portt:8080
 	进入front-end项目根目录：/front-end/mandarin_admin
     ```shell
     npm install
-    npm run serve:randy
+    npm run server
     ```
 
 - ps：若npm install较慢，请切换到淘宝源
