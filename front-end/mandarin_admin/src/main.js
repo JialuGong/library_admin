@@ -4,6 +4,8 @@ import store from '@/store/index'
 import router from '@/router/index'
 
 import ElementUI from 'element-ui'
+
+// 使用element-ui英文
 import locale from 'element-ui/lib/locale/lang/en'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.scss'

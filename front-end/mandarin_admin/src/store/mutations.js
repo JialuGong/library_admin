@@ -4,6 +4,7 @@ export default {
     },
     LOGIN_OUT(state) {
         state.UserToken = ''
+        state.crumbList = ''
     },
     toggleNavCollapse(state) {
         state.isSidebarNavCollapse = !state.isSidebarNavCollapse
