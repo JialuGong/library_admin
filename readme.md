@@ -4,6 +4,42 @@
 > front-end :[Huaiyu Gong](https://github.com/JialuGong)<br>
 > back-end :[floatinjianghu](https://github.com/floatinjianghu)
 
+### functions
+- [x] login in/out
+- [x] register new librarian
+- [x] edit/delete librarian
+- [x] set/modify fine value
+- [x] set/modify book return value
+- [x] set/modify reader deposit value
+- [x] obtian librarian password
+- [ ] change admin password
+
+___
+- release 2
+> origin
+
+- [x] searching libarain account
+- [x] setting book fine value
+
+ > now
+
+- [x] searching librarian account
+- [x] setting book information
+- [x] obtaining librarian password
+- [x] setting readers's  deposit
+
+- ralease 3
+> oringin
+
+- [x] obtain librarian password
+- [x] setting reader's deposit
+- [ ] change admin password
+
+ > now
+
+- [ ]change password 
+___
+
 ### How to run
 ###### addtional remarks
 front-end port:8001
