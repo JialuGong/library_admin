@@ -1,19 +1,5 @@
 <template>
     <el-card>
-        <div class="time-line-bar">
-            <el-divider>The last three modify records</el-divider>
-                <el-timeline>
-                     <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-                    <el-timeline-item
-                        v-loading.body="actLoading"
-                        :data="activities"
-                        v-for="(activity, index) in activities"
-                        :key="index"
-                        :timestamp="activity.timestamp"
-                    >{{activity.reader_deposit}}</el-timeline-item>
-                      </ul>
-                </el-timeline>
-        </div>
         <div class="modify-period-bar">
             <el-divider>Modify the deposit</el-divider>
             <el-form
@@ -48,11 +34,26 @@
                 </el-form-item>
             </el-form>
         </div>
+        <div class="time-line-bar">
+            <el-divider>The modify records</el-divider>
+            <el-timeline>
+                <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+                    <el-timeline-item
+                        v-loading.body="actLoading"
+                        :data="activities"
+                        v-for="(activity, index) in activities"
+                        :key="index"
+                        :timestamp="activity.timestamp"
+                    >{{activity.reader_deposit}}</el-timeline-item>
+                </ul>
+            </el-timeline>
+        </div>
     </el-card>
 </template>
 
 <script>
 import { getReaderDeposit, modifyReaderDeposit } from '@/api/data'
+import { getDate } from '@/utils/time-stamp'
 import { Message } from 'element-ui'
 export default {
     data() {
@@ -98,20 +99,13 @@ export default {
             if (this.submitForm(objectName)) {
                 var formaData = new FormData()
                 var data = formName.deposit
-                var date = this.getDate()
+                var date = getDate()
                 formaData.append('reader_deposit', data)
                 formaData.append('timestamp', date)
                 modifyReaderDeposit(formaData).then(chunck => {
                     Message.success('Modify success')
                 })
             }
-        },
-        getDate() {
-            var myDate = new Date()
-            var year = myDate.getFullYear()
-            var month = myDate.getMonth()
-            var day = myDate.getDate()
-            return year + '-' + month + '-' + day
         },
         async submitForm(objectName) {
             var result = await this.$refs[objectName].validate()
@@ -125,6 +119,6 @@ export default {
 </script>
 <style>
 .el-scrollbar__wrap {
-   overflow-x: hidden;
+    overflow-x: hidden;
 }
 </style>

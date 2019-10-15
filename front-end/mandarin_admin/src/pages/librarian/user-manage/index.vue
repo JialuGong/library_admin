@@ -286,16 +286,12 @@ export default {
                 cancelButtonText: 'cancel',
                 type: 'warning'
             }).then(async () => {
-                var id = row.id
-                var submitData = new FormData()
-                submitData.append('librarian_id', id)
-                var chunck = await deleteLib(submitData)
-                if (chunck) {
-                    alert('Delete success')
-                    this.tableData = this.initList()
-                } else {
-                    alert('Delete failed')
-                }
+                let name = row.librarian_name
+                let submitData = new FormData()
+                submitData.append('librarian_name', name)
+                deleteLib(submitData).then(chunck => {
+                    Message.success('Delete success')
+                })
             })
         },
         handleEdit(index, row) {
