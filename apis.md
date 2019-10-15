@@ -282,5 +282,33 @@ data:
 ```
 ____
 
-
-
+### new
+#### 14 verify E-mail
+```shell
+url:/apis/mandarin/admin/verifyEmail
+```
+###### client
+```javascript
+type:post
+dataType:FormData
+data:
+{"admin_email",{adminEmail}}
+```
+###### server
+```javascript
+data:{}
+```
+#### 15 change password
+```shell
+url:/apis/mandarin/admin/changePassword
+```
+###### client
+```javascript
+type:post
+dataType:FormData
+data:
+{
+"admin_password":{adminPassword}
+"admin_key":{adminKey}
+}
+```
