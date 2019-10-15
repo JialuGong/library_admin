@@ -100,7 +100,7 @@ public JSON getAllLib() {
         }
         }
 
-// 4.更改所有图书管理员信息
+// 4.更改图书管理员信息
 @RequestMapping(value = "/editLib", method = RequestMethod.POST)
 @ResponseBody
 public JSON editLib(
@@ -116,7 +116,7 @@ public JSON editLib(
         if (librarians.size()!=0&&librarians.get(0).getId()!=id) {
             return jsonUtil.messagetoJson("fail","name_existed");
         } else
-            librarianService.addLibrarian(name, password, phone, email);
+            librarianService.updateLibrarian(id,name,password,phone,email);
             return jsonUtil.messagetoJson("success",null);
         }else
         return null;

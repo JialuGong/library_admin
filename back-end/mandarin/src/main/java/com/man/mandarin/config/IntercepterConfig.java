@@ -18,28 +18,22 @@ public class IntercepterConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry){
-//        //amdin
-//        String excludePath= "/apis/mandarin/admin/getAllLib";
-          String excludePath1= "/apis/mandarin/admin/login";
-//        excludePath.add("/apis/mandarin/admin/login");
-//        excludePath.add("/apis/mandarin/admin/registerLib");
-//        excludePath.add("/apis/mandarin/admin/getAllLib");
-//        excludePath.add("/apis/mandarin/admin/editLib");
-//        excludePath.add("/apis/mandarin/admin/deleteLib");
-//        excludePath.add("/apis/mandarin/admin/modifyBookFine");
-//        excludePath.add("/apis/mandarin/admin/getBookFine");
-//        excludePath.add("/apis/mandarin/admin/modifyBookPeriod");
-//        excludePath.add("/apis/mandarin/admin/getBookPeriod");
-//        excludePath.add("/apis/mandarin/admin/modifyReaderDeposit");
-//        excludePath.add("/apis/mandarin/admin/getReaderDeposit");
-//        excludePath.add("/apis/mandarin/admin/searchLib");
-//        excludePath.add("/apis/mandarin/admin/getInfo");
-
+        //admin
+        String addPathPattern1="/apis/mandarin/admin/**";
+        String [] excludePath1={
+                "/apis/mandarin/admin/login"
+        };
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns(addPathPattern1)
+                .excludePathPatterns(excludePath1);
 //        //librarian
-//        String excludePath2= "/apis/mandarin/librarian/login";
-
-        registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePath1);
-//        registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePath2);
+//        String addPathPattern2="/apis/mandarin/librarian/**";
+//        String [] excludePath2={
+//                "/apis/mandarin/librarian/login"
+//        };
+//        registry.addInterceptor(tokenInterceptor)
+//                .addPathPatterns(addPathPattern2)
+//                .excludePathPatterns(excludePath2);
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 }

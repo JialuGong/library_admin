@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.man.mandarin.entity.Admin;
 import com.man.mandarin.entity.Admin_rules;
+import com.man.mandarin.entity.Book;
 import com.man.mandarin.entity.Librarian;
 import java.util.List;
 
@@ -51,6 +52,19 @@ public class JsonUtil {
         }
         return jsonObject;
     }
+    public JSON booktoJson(String status,List<Book> books,String error_type){
+        JSONObject jsonObject=new JSONObject();
+        if (status=="success"){
+            jsonObject.put("code",1);
+            jsonObject.put("message","success");
+            jsonObject.put("data",bktoJson(books));
+        }else if(status=="fail"){
+            jsonObject.put("code",0);
+            jsonObject.put("message",error_type);
+            jsonObject.put("data",null);
+        }
+        return jsonObject;
+    }
     public JSON ruletoJson(String status,List<Admin_rules> rules,String error_type,String info){
         JSONObject jsonObject = new JSONObject();
         if(status=="success"){
@@ -64,6 +78,7 @@ public class JsonUtil {
         }
         return jsonObject;
     }
+    //返回超级管理员json信息
     public JSON adtoJson(List<Admin> admins){
         JSONArray json = new JSONArray();
         JSONObject jsonObject = null;
@@ -78,6 +93,7 @@ public class JsonUtil {
     }
     return json;
 }
+//返回图书管理员Json信息
     public JSON libtoJson(List<Librarian> librarians){
         JSONArray json = new JSONArray();
         JSONObject jsonObject = null;
@@ -92,6 +108,7 @@ public class JsonUtil {
         }
         return json;
     }
+    //返回rule的json信息
     public JSON rltoJson(List<Admin_rules> rules,String info){
         JSONArray json = new JSONArray();
         JSONObject jsonObject = null;
@@ -127,6 +144,26 @@ public class JsonUtil {
             }
         }else
             json=null;
+        return json;
+    }
+    //返回图书json信息
+    public JSON bktoJson(List<Book> books){
+        JSONArray json =new JSONArray();
+        JSONObject jsonObject = null;
+        for (Book book : books){
+            jsonObject=new JSONObject();
+            jsonObject.put("book_id", book.getId());
+            jsonObject.put("book_isbn",book.getIsbn());
+            jsonObject.put("book_title",book.getTitle());
+            jsonObject.put("book_author",book.getAuthor());
+            jsonObject.put("book_publisher",book.getPublisher());
+            jsonObject.put("book_price",book.getPrice());
+            jsonObject.put("book_location",book.getLocation());
+            jsonObject.put("book_status",book.getStatus());
+            jsonObject.put("book_barcode",book.getBarcode_path());
+            jsonObject.put("category",book.getCategory_id());
+            json.add(jsonObject);
+        }
         return json;
     }
 }
