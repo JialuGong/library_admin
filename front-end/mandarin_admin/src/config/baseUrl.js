@@ -1,4 +1,4 @@
-const baseUrl = process.env.NODE_ENV === 'production' ? '/' : '/apis'
+const baseUrl = process.env.NODE_ENV === 'production' ? '/apis' : '/apis'
 // const hostname = 'localhost'
 // const port = '8000'
 // const parentPath = 'mandarin'

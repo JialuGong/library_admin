@@ -132,7 +132,6 @@ http.post = function (url, data, options) {
                 }
             })
             .catch(e => {
-                store.commit('LOGIN_OUT')
                 console.log(e)
             })
     })

@@ -9,7 +9,7 @@
       </el-form>
       <div class="fl">
         <!--el-button type="text" @click="handleReset">重置</el-button-->
-        <el-button type="primary" icon="el-icon-search" @click="onSearch">search</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="onSearch(searchData.librarian_name,'searchData')">search</el-button>
       </div>
     </div>
     <div  class="tools-bar">
@@ -43,8 +43,8 @@
           width="200">
         </el-table-column>
         <el-table-column
-        prop="auth_admin_name"
-        label="authrization admin"
+        prop="librarian_password"
+        label="password"
         width="200">
         </el-table-column>
         <el-table-column
@@ -244,18 +244,26 @@ export default {
         // },
 
         // for search function
-        async onSearch(data, objectName) {
+        onSearch(data, objectName) {
             var formData = new FormData()
             var name = data
-            formData.append('libririan_name', name)
+            formData.append('librarian_name', name)
             if (this.getName(objectName)) {
-                var chunck = await searchLib(formData)
+                searchLib(formData)
+                    .then(chuck => {
+                        Message.success('search success')
+                        this.tableData = chuck
+                    })
+                    // .catch(err => {
+                    //     // Message.warning(err)
+                    // })
+                // var chunck = await searchLib(formData)
 
-                if (chunck) {
-                    this.tableData = chunck
-                } else {
-                    alert('Name not found')
-                }
+                // if (chunck) {
+                //     this.tableData = chunck
+                // } else {
+                //     alert('Name not found')
+                // }
             }
         },
         async getName(obejectName) {
