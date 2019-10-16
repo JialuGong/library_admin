@@ -44,7 +44,7 @@
                         v-for="(activity, index) in activities"
                         :key="index"
                         :timestamp="activity.timestamp"
-                    >{{activity.reader_deposit}}</el-timeline-item>
+                    >￥ {{activity.reader_deposit}}</el-timeline-item>
                 </ul>
             </el-timeline>
         </div>
@@ -61,7 +61,7 @@ export default {
             actLoading: false,
             activities: [],
             numberValidateForm: {
-                deposit: ''
+                deposit: '300'
             }
         }
     },
@@ -114,7 +114,7 @@ export default {
             }
         },
         varifyRule(formName, objectName) {
-            let data = formName.period
+            let data = formName.deposit
             let pattern = /^[0-9]+(.[0-9]{1,2})?$/
             if (pattern.test(data)) {
                 return true

@@ -40,7 +40,7 @@
                     v-for="(activity, index) in activities"
                     :key="index"
                     :timestamp="activity.timestamp"
-                >{{activity.book_fine_value}}</el-timeline-item>
+                >￥ {{activity.book_fine_value}}</el-timeline-item>
             </el-timeline>
         </div>
     </el-card>
@@ -55,7 +55,7 @@ export default {
         return {
             activities: [],
             numberValidateForm: {
-                value: ''
+                value: 1
             }
         }
     },

@@ -15,7 +15,7 @@ export default {
     data() {
         return {
             src:
-                'http://47.92.141.59/images/bg.png'
+                'http://47.92.141.59/images/bll.jpg'
         }
     }
 }

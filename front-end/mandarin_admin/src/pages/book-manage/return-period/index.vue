@@ -40,7 +40,7 @@
                     v-for="(activity, index) in activities"
                     :key="index"
                     :timestamp="activity.timestamp"
-                >{{activity.book_period}}</el-timeline-item>
+                >{{activity.book_period}} days</el-timeline-item>
             </el-timeline>
         </div>
     </el-card>
@@ -55,7 +55,7 @@ export default {
         return {
             activities: [],
             numberValidateForm: {
-                period: ''
+                period: 30
             }
         }
     },
