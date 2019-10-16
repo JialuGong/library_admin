@@ -31,7 +31,7 @@ public class BookService {
         return 1;
         }
         //根据书本名称查找书本
-    public List<Book> queryByName(String title){
+    public List<Book> queryByTitle(String title){
         List<Book> bookList=bookRepository.findByTitle(title);
         return bookList;
         }

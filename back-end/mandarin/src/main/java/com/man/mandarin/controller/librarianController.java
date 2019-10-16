@@ -48,7 +48,7 @@ public class librarianController {
                         tokenJsonObject.put("token",token);
                         jsonObject.put("code",1);
                         jsonObject.put("message","success");
-                        jsonObject.put("data",null);
+                        jsonObject.put("data",tokenJsonObject);
                         return jsonObject;
                     } else {
                         return jsonUtil.messagetoJson("fail","password_error");
@@ -122,14 +122,32 @@ public JSON modifyBookInfo(@RequestParam("book_id") int id,
     //5.通过图书名称搜索书籍
     @RequestMapping(value = "/searchBookByTitle",method=RequestMethod.POST)
     @ResponseBody
-    public JSON searchBookByTitle(){
-        return null;
+    public JSON searchBookByTitle(@RequestParam("book_title") String title){
+        List<Book> books=bookService.queryByTitle(title);
+        JsonUtil jsonUtil=new JsonUtil();
+        try{
+            if (books.size()!=0){
+                return jsonUtil.booktoJson("success",books,null);
+            }else
+                return jsonUtil.booktoJson("fail",books,"title_not_found");
+        }catch (Exception e){
+            return jsonUtil.booktoJson("fail",books,"search_fail");
+        }
     }
     //6.通过图书isbn搜索书籍
     @RequestMapping(value = "/searchBookByISBN",method=RequestMethod.POST)
     @ResponseBody
-    public JSON searchBookByISBN(){
-        return null;
+    public JSON searchBookByISBN(@RequestParam("book_isbn") String isbn){
+        List<Book> books=bookService.queryByIsbn(isbn);
+        JsonUtil jsonUtil=new JsonUtil();
+        try{
+            if (books.size()!=0){
+                return jsonUtil.booktoJson("success",books,null);
+            }else
+                return jsonUtil.booktoJson("fail",books,"isbn_not_found");
+        }catch (Exception e){
+            return jsonUtil.booktoJson("fail",books,"search_fail");
+        }
     }
 
 }
