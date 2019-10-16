@@ -342,7 +342,7 @@ export default {
                         .then(chunck => {
                             Message.success('edit success')
                             this.tableData = this.getNewList()
-                            this.onDialogClose()
+                            this.dialogVisible = false
                         })
                         .catch(error => {
                             console.log(error)
@@ -373,7 +373,7 @@ export default {
                 .then(chunck => {
                     Message.success('register success')
                     this.tableData = this.getNewList()
-                    this.onDialogClose()
+                    this.dialogVisible = false
                 })
                 .catch(error => {
                     console.log(error)
