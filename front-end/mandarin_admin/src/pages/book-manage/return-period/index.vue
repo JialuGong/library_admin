@@ -80,23 +80,40 @@ export default {
             }
         },
         async initlist() {
-            var chunck = await getBookPeriod()
+            let chunck = await getBookPeriod()
             this.activities = chunck
         },
         postForm(formName, objectName) {
-            if (this.submitForm(objectName)) {
-                var formData = new FormData()
-                var data = formName.period
-                var date = getDate()
+            if (
+                this.submitForm(objectName) &&
+                this.varifyRule(formName, objectName)
+            ) {
+                let formData = new FormData()
+                let data = formName.period
+                let date = getDate()
                 formData.append('book_period', data)
                 formData.append('timestamp', date)
                 modifyBookPeriod(formData).then(chunck => {
-                    Message.success('Modify success')
+                    getBookPeriod().then(chunck => {
+                        this.activities = chunck
+                        Message.success('Modify success')
+                    })
                 })
             }
         },
+        varifyRule(formName, objectName) {
+            let data = formName.period
+            let pattern = /^[0-9]*$/
+            if (pattern.test(data)) {
+                return true
+            } else {
+                this.$refs[objectName].resetFields()
+                Message.warning('Format is not correct')
+                return false
+            }
+        },
         async submitForm(formName) {
-            var result = await this.$refs[formName].validate()
+            let result = await this.$refs[formName].validate()
             return result
         },
         resetForm(formName) {

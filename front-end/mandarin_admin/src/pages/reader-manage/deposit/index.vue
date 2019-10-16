@@ -96,15 +96,32 @@ export default {
             }
         },
         postForm(formName, objectName) {
-            if (this.submitForm(objectName)) {
-                var formaData = new FormData()
-                var data = formName.deposit
-                var date = getDate()
+            if (
+                this.submitForm(objectName) &&
+                this.varifyRule(formName, objectName)
+            ) {
+                let formaData = new FormData()
+                let data = formName.deposit
+                let date = getDate()
                 formaData.append('reader_deposit', data)
                 formaData.append('timestamp', date)
                 modifyReaderDeposit(formaData).then(chunck => {
-                    Message.success('Modify success')
+                    getReaderDeposit().then(chunck => {
+                        this.activities = chunck
+                        Message.success('Modify success')
+                    })
                 })
+            }
+        },
+        varifyRule(formName, objectName) {
+            let data = formName.period
+            let pattern = /^[0-9]+(.[0-9]{1,2})?$/
+            if (pattern.test(data)) {
+                return true
+            } else {
+                this.$refs[objectName].resetFields()
+                Message.warning('Format is not correct')
+                return false
             }
         },
         async submitForm(objectName) {

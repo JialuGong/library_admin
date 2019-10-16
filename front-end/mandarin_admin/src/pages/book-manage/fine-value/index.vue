@@ -34,10 +34,9 @@
             </el-form>
         </div>
         <div class="time-line-bar">
-            <el-divider> Modify records</el-divider>
+            <el-divider>Modify records</el-divider>
             <el-timeline>
                 <el-timeline-item
-                    v-model="activities"
                     v-for="(activity, index) in activities"
                     :key="index"
                     :timestamp="activity.timestamp"
@@ -81,35 +80,49 @@ export default {
             }
         },
         async initlist() {
-            var chunck = await getBookFine()
+            let chunck = await getBookFine()
             this.activities = chunck
         },
-        getNewList() {
-            getBookFine().then(chunck => {
-                this.activities = chunck
-            })
-        },
+        // getNewList() {
+        //     getBookFine(chunck => {
+        //         console.log(`this chunck is ${chunck}`)
+        //         this.activities = chunck
+        //     })
+        // },
         postForm(formName, objectName) {
-            if (this.submitForm(objectName)) {
-                var formData = new FormData()
+            if (
+                this.submitForm(objectName) &&
+                this.varifyRule(formName, objectName)
+            ) {
+                let formData = new FormData()
                 let data = formName.value
                 let date = getDate()
                 formData.append('book_fine_value', data)
                 formData.append('timestamp', date)
-                modifyBookFine(formData)
-                    .then(chunck => {
-                        Message.success('Modify Success')
-                        this.$refs[formName].resetFields()
+                modifyBookFine(formData).then(chunck => {
+                    getBookFine().then(chunck => {
+                        this.activities = chunck
+                        Message.success('Modify success')
                     })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                })
             }
         },
-
+        varifyRule(formName, objectName) {
+            let data = formName.value
+            let pattern = /^[0-9]+(.[0-9]{1,2})?$/
+            console.log(`data is ${data} and rule is ${pattern.test(data)}`)
+            if (pattern.test(data)) {
+                return true
+            } else {
+                this.$refs[objectName].resetFields()
+                Message.warning('Format is not correct')
+                return false
+            }
+        },
         // 检查input内的值是否可以被传输
         async submitForm(objectName) {
-            var result = await this.$refs[objectName].validate()
+            let result = await this.$refs[objectName].validate()
+            console.log(`submit result is ${result}`)
             return result
         },
 
