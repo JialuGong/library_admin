@@ -297,6 +297,7 @@ export default {
                 let submitData = new FormData()
                 submitData.append('librarian_name', name)
                 deleteLib(submitData).then(chunck => {
+                    this.tableData = this.getNewList()
                     Message.success('Delete success')
                 })
             })
@@ -341,6 +342,7 @@ export default {
                         .then(chunck => {
                             Message.success('edit success')
                             this.tableData = this.getNewList()
+                            this.onDialogClose()
                         })
                         .catch(error => {
                             console.log(error)
@@ -371,6 +373,7 @@ export default {
                 .then(chunck => {
                     Message.success('register success')
                     this.tableData = this.getNewList()
+                    this.onDialogClose()
                 })
                 .catch(error => {
                     console.log(error)
