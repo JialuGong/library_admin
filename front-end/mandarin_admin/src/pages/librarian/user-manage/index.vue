@@ -81,7 +81,7 @@
       </div>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" @close="onDialogClose()">
-      <el-form ref="dataForm" :rules="rules" :model="dataForm" label-width="80px">
+      <el-form ref="dataForm" :rules="rules" :model="dataForm" label-width="100px">
         <!-- <el-form-item label="Name" prop="librarian_name">
           <template v-if="dialogTitle=='edit librarian information'">{{ tableData.librarian_name }}</template>
           <el-input v-else v-model="dataForm.lirarian_name" placeholder="Name"></el-input>
@@ -101,7 +101,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">cancel</el-button>
-        <el-button type="primary" @click="onDialogSubmit()" v-if="dialogTitle=='edit librarian information'">submit</el-button>
+        <el-button type="primary" @click="onDialogSubmit(dataForm,'dataForm')" v-if="dialogTitle=='edit librarian information'">submit</el-button>
         <el-button type="primary" @click="onDialogRegisterSubmit()" v-else>create</el-button>
       </div>
     </el-dialog>
@@ -249,14 +249,13 @@ export default {
             var name = data
             formData.append('librarian_name', name)
             if (this.getName(objectName)) {
-                searchLib(formData)
-                    .then(chuck => {
-                        Message.success('search success')
-                        this.tableData = chuck
-                    })
-                    // .catch(err => {
-                    //     // Message.warning(err)
-                    // })
+                searchLib(formData).then(chuck => {
+                    Message.success('search success')
+                    this.tableData = chuck
+                })
+                // .catch(err => {
+                //     // Message.warning(err)
+                // })
                 // var chunck = await searchLib(formData)
 
                 // if (chunck) {
@@ -329,21 +328,37 @@ export default {
             //     }
             // }
         },
-        onDialogSubmit() {
+        onDialogSubmit(forname, objectName) {
             let submitData = new FormData()
             submitData.append('librarian_id', this.dataForm.tabID)
             submitData.append('librarian_name', this.dataForm.tabName)
             submitData.append('librarian_password', this.dataForm.tabPassword)
             submitData.append('librarian_phone', this.dataForm.tabPhone)
             submitData.append('librarian_email', this.dataForm.tabEmail)
-            editLib(submitData)
-                .then(chunck => {
-                    Message.success('edit success')
-                    this.tableData = this.getNewList()
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            this.varifyRule(objectName).then(chunck => {
+                if (this.varifyRule(objectName)) {
+                    editLib(submitData)
+                        .then(chunck => {
+                            Message.success('edit success')
+                            this.tableData = this.getNewList()
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
+                }
+            })
+        },
+        varifyRule(objectName) {
+            return new Promise((resolve, reject) => {
+                this.$refs[objectName]
+                    .validate()
+                    .then(chunck => {
+                        resolve(true)
+                    })
+                    .catch(() => {
+                        Message.warning('Format is not correct')
+                    })
+            })
         },
         onDialogRegisterSubmit() {
             let submitData = new FormData()
