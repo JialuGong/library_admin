@@ -37,7 +37,7 @@ ___
 
  > now
 
-- [ ]change password 
+- [ ] change password
 ___
 
 ### How to run
