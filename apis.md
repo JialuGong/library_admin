@@ -308,7 +308,12 @@ type:post
 dataType:FormData
 data:
 {
-"admin_password":{adminPassword}
-"admin_key":{adminKey}
+"admin_name":{adminName},
+"admin_old_password":{adminOldPassword}
+"admin_new_password":{adminNewPassword}
 }
+```
+###### server
+```js
+data:{}
 ```
