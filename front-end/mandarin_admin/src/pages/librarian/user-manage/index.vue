@@ -102,7 +102,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">cancel</el-button>
         <el-button type="primary" @click="onDialogSubmit(dataForm,'dataForm')" v-if="dialogTitle=='edit librarian information'">submit</el-button>
-        <el-button type="primary" @click="onDialogRegisterSubmit()" v-else>create</el-button>
+        <el-button type="primary" @click="onDialogRegisterSubmit(dataForm,'dataForm')" v-else>create</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -362,22 +362,24 @@ export default {
                     })
             })
         },
-        onDialogRegisterSubmit() {
+        onDialogRegisterSubmit(formName, objectName) {
             let submitData = new FormData()
             submitData.append('librarian_id', this.dataForm.tabID)
             submitData.append('librarian_name', this.dataForm.tabName)
             submitData.append('librarian_password', this.dataForm.tabPassword)
             submitData.append('librarian_phone', this.dataForm.tabPhone)
             submitData.append('librarian_email', this.dataForm.tabEmail)
-            registerLib(submitData)
-                .then(chunck => {
-                    Message.success('register success')
-                    this.tableData = this.getNewList()
-                    this.dialogVisible = false
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            this.varifyRule(objectName).then(chunck => {
+                registerLib(submitData)
+                    .then(chunck => {
+                        Message.success('register success')
+                        this.tableData = this.getNewList()
+                        this.dialogVisible = false
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            })
         }
     }
 }

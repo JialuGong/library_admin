@@ -43,9 +43,11 @@
                     style="width:100%;"
                     :loading="loading"
                     @click.native.prevent="login"
-                >Sign in</el-button>
+                >Login in</el-button>
             </el-form-item>
         </el-form>
+        <div class="footerBox">
+        </div>
     </div>
 </template>
 
@@ -105,7 +107,11 @@ export default {
                 formData.append('admin_password', password)
                 let data = await login(formData)
                 let token = data.token
-                this.$store.commit('LOGIN_IN', token)
+                let value = {
+                    token: token,
+                    admin_name: name
+                }
+                this.$store.commit('LOGIN_IN', value)
                 this.$router.replace('/')
             } catch (e) {
                 console.log(e)
@@ -152,6 +158,14 @@ $light_gray: #eee;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
+.footer {
+    font-size: 26px;
+    font-weight: 400;
+    color: $light_gray;
+    margin: 0px auto 40px auto;
+    text-align: center;
+    font-weight: bold;
+}
 .login-container {
     position: fixed;
     height: 100%;

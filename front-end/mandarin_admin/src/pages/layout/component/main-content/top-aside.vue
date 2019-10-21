@@ -1,12 +1,11 @@
-<!--TODOS 1.检验是否存在log-out无法退出的情况-->
+<!--TODOS 1.检验是否存在log-out无法退出的情况,add functions about changePassword-->
 <template>
     <aside class="aside__top">
         <span
             class="iconfont icon-nav toggleNavCollapse"
             :class="{active:isSidebarNavCollapse}"
             @click="toggleNavCollapse"
-        >
-        </span>
+        ></span>
         <el-breadcrumb separator="/">
             <transition-group name="breadcrumb">
                 <!-- 防止面包屑导航出现 首页/首页， v-if="route.name!='home'" -->
@@ -16,15 +15,13 @@
                         :to="{name:route.name}"
                         v-if="route.name!='home' && route.meta.name!='首页'"
                         :class="{'is-last-link':i==crumbList.length-1}"
-                    >
-                        {{route.meta.name}}
-                    </el-breadcrumb-item>
+                    >{{route.meta.name}}</el-breadcrumb-item>
                 </template>
             </transition-group>
         </el-breadcrumb>
         <div class="aside__top--right">
             <div class="user-msg">
-                <img class="user-img" :src="avatar" alt="">
+                <img class="user-img" :src="avatar" alt />
                 <span class="user-name">{{account}}</span>
                 <el-dropdown trigger="click" placement="top">
                     <span class="el-dropdown-link">
@@ -32,7 +29,7 @@
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>my profile</el-dropdown-item>
-                        <el-dropdown-item>change passoword</el-dropdown-item>
+                        <el-dropdown-item @click="changePassword">change passoword</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -57,6 +54,9 @@ export default {
     methods: {
         toggleNavCollapse() {
             this.$store.commit('toggleNavCollapse')
+        },
+        changePassword() {
+            this.$router.replace('/change-password')
         },
         loginOut() {
             this.$store.commit('LOGIN_OUT')
