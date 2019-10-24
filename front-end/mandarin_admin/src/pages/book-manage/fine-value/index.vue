@@ -20,6 +20,8 @@
                 >
                     <el-input
                         suffix-icon="iconfont icon-sousuo"
+                        placeholder="Please enter the new fine value"
+                        type="number"
                         v-model.number="numberValidateForm.value"
                         autocomplete="off"
                     ></el-input>
@@ -40,7 +42,7 @@
                     v-for="(activity, index) in activities"
                     :key="index"
                     :timestamp="activity.timestamp"
-                >￥ {{activity.book_fine_value}}</el-timeline-item>
+                >￥ {{activity.book_fine_value}} / day</el-timeline-item>
             </el-timeline>
         </div>
     </el-card>

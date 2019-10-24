@@ -34,7 +34,7 @@
             </el-form>
         </div>
         <div class="time-line-bar">
-            <el-divider>The last three modify records</el-divider>
+            <el-divider>The modify records</el-divider>
             <el-timeline>
                 <el-timeline-item
                     v-for="(activity, index) in activities"

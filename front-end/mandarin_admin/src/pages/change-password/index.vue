@@ -97,7 +97,7 @@ export default {
         submitForm(formName, objectName) {
             this.checkForm(formName).then(chunck => {
                 let formData = new FormData()
-                formData.append('admin_name', this.$store.state.UserName)
+                formData.append('admin_name', this.$store.state.AdminName)
                 formData.append('admin_old_password', objectName.age)
                 formData.append('admin_new_password', objectName.pass)
                 changePassword(formData)
