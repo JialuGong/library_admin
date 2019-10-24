@@ -51,3 +51,7 @@ export function editLib(data) {
 export function registerLib(data) {
     return axios.post('/mandarin/admin/registerLib', data)
 }
+
+export function changePassword(data) {
+    return axios.post('/mandarin/admin/changePassword', data)
+}

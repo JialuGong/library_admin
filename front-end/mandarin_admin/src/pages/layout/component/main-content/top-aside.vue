@@ -28,8 +28,11 @@
                         <i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>my profile</el-dropdown-item>
-                        <el-dropdown-item @click="changePassword">change passoword</el-dropdown-item>
+                        <!-- <el-dropdown-item>my profile</el-dropdown-item> -->
+                        <el-dropdown-item
+                            class="change_password"
+                            @click.native="changePassword"
+                        >change passoword</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>

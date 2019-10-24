@@ -20,7 +20,7 @@ const UserManage = () => import('@/pages/librarian/user-manage')
  */
 const dynamicRoutes = [
     {
-        path: '/books',
+        path: 'books',
         component: Book,
         name: 'order-manage',
         meta: {

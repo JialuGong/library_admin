@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Login from '@/pages/login/login'
 import NotFound from '@/pages/errorPage/404'
 import Forbidden from '@/pages/errorPage/403'
 import Layout from '@/pages/layout/index'
 import Home from '@/pages/home/index'
-
+import changePassword from '@/pages/change-password/index'
 Vue.use(Router)
 
 /* 初始路由 */
@@ -18,6 +17,8 @@ export default new Router({
         }
     ]
 })
+
+// TODOS:添加changepassword的路由
 
 /* 准备动态添加的路由 */
 export const DynamicRoutes = [
@@ -42,6 +43,10 @@ export const DynamicRoutes = [
                 }
             }
         ]
+    },
+    {
+        path: '/change-password',
+        component: changePassword
     },
     {
         path: '/403',

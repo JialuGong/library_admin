@@ -5,6 +5,12 @@ export default {
     set UserToken(value) {
         localStorage.setItem('token', value)
     },
+    set AdminName(value) {
+        localStorage.setItem('admin_name', value)
+    },
+    get AdminName() {
+        return localStorage.getItem('admin_name')
+    },
     /* 导航菜单是否折叠 */
     isSidebarNavCollapse: false,
     /* 面包屑导航列表 */
