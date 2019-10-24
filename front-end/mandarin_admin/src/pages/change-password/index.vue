@@ -2,50 +2,66 @@
 <template>
     <div class="change-password-container">
         <el-container>
-            <el-header>
-                <el-card>
-                    <el-page-header @back="goBack" content="back to home"></el-page-header>
-                </el-card>
-            </el-header>
+            <el-header></el-header>
             <el-main>
-                <div class="change-form">
-                    <el-card>
-                        <el-form
-                            :model="ruleForm"
-                            status-icon
-                            :rules="rules"
-                            ref="ruleForm"
-                            label-width="100px"
-                            class="demo-ruleForm"
-                        >
-                            <el-form-item label="origin password" prop="age">
-                                <el-input type="password" v-model.number="ruleForm.age"></el-input>
-                            </el-form-item>
-                            <el-form-item label="new password" prop="pass">
-                                <el-input
-                                    type="password"
-                                    v-model="ruleForm.pass"
-                                    autocomplete="off"
-                                ></el-input>
-                            </el-form-item>
-                            <el-form-item label="check new password" prop="checkPass">
-                                <el-input
-                                    type="password"
-                                    v-model="ruleForm.checkPass"
-                                    autocomplete="off"
-                                ></el-input>
-                            </el-form-item>
-
-                            <el-form-item>
-                                <el-button
-                                    type="primary"
-                                    @click="submitForm('ruleForm',ruleForm)"
-                                >submit</el-button>
-                                <el-button @click="resetForm('ruleForm')">cancle</el-button>
-                            </el-form-item>
-                        </el-form>
-                    </el-card>
-                </div>
+                <el-row>
+                    <el-col :span="8">
+                        <div>&nbsp</div>
+                    </el-col>
+                    <el-col :span="8">
+                        <div class="grid-content bg-purple-light"></div>
+                        <div class="change-form">
+                            <el-card>
+                                <div class="card-box">
+                                    <el-form
+                                        :model="ruleForm"
+                                        status-icon
+                                        :rules="rules"
+                                        ref="ruleForm"
+                                        label-width="150px"
+                                        class="demo-ruleForm"
+                                    >
+                                        <el-form-item>
+                                            <img class="user-img" :src="avatar" alt />
+                                            <a href>
+                                                <span class="user-name">{{account}}</span>
+                                            </a>
+                                        </el-form-item>
+                                        <el-divider></el-divider>
+                                        <el-form-item
+                                            label="origin password"
+                                            prop="age"
+                                            class="input-form"
+                                        >
+                                            <el-input type="password" v-model.number="ruleForm.age"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="new password" prop="pass">
+                                            <el-input
+                                                type="password"
+                                                v-model="ruleForm.pass"
+                                                autocomplete="off"
+                                            ></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="check password" prop="checkPass">
+                                            <el-input
+                                                type="password"
+                                                v-model="ruleForm.checkPass"
+                                                autocomplete="off"
+                                            ></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="btn">
+                                        <el-button
+                                            type="primary"
+                                            @click="submitForm('ruleForm',ruleForm)"
+                                        >submit</el-button>
+                                        <el-button @click="resetForm('ruleForm')">cancel</el-button>
+                                    </div>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-col>
+                </el-row>
             </el-main>
         </el-container>
     </div>
@@ -53,6 +69,7 @@
 <script>
 import { changePassword } from '@/api/data'
 import { Message } from 'element-ui'
+import { mapState } from 'vuex'
 export default {
     data() {
         var checkAge = (rule, value, callback) => {
@@ -90,8 +107,12 @@ export default {
                 pass: [{ validator: validatePass, trigger: 'blur' }],
                 checkPass: [{ validator: validatePass2, trigger: 'blur' }],
                 age: [{ validator: checkAge, trigger: 'blur' }]
-            }
+            },
+            account: this.$store.state.AdminName
         }
+    },
+    computed: {
+        ...mapState('permission', ['avatar'])
     },
     methods: {
         submitForm(formName, objectName) {
@@ -151,5 +172,29 @@ $light_gray: #eee;
     height: 100%;
     width: 100%;
     background-color: $bg;
+}
+.user-img {
+    width: 100px;
+    height: 100 px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 30px;
+}
+.user-name {
+    color: #758eb5;
+    padding: 0 8px;
+    font-size: 30px;
+    margin: 20px;
+    text-decoration: underline;
+}
+.input-form {
+    margin-top: 50px;
+}
+.card-box {
+    .btn {
+        align-content: center;
+        margin-left:200px;
+        margin-bottom: 100px;
+    }
 }
 </style>

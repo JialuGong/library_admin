@@ -48,11 +48,13 @@ import { mapState } from 'vuex'
 
 export default {
     data() {
-        return {}
+        return {
+            account: this.$stroe.state.AdminName
+        }
     },
     computed: {
         ...mapState(['isSidebarNavCollapse', 'crumbList']),
-        ...mapState('permission', ['avatar', 'account'])
+        ...mapState('permission', ['avatar'])
     },
     methods: {
         toggleNavCollapse() {
