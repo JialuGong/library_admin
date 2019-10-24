@@ -12,8 +12,9 @@
 - [x] set/modify book return value
 - [x] set/modify reader deposit value
 - [x] obtian librarian password
-- [ ] change admin password
+- [x] change admin password
 
+All functions have finished.
 ___
 - release 2
 > origin
@@ -33,11 +34,11 @@ ___
 
 - [x] obtain librarian password
 - [x] setting reader's deposit
-- [ ] change admin password
+- [x] change admin password
 
  > now
 
-- [ ] change password
+- [x] change password
 ___
 
 ### How to run
