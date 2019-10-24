@@ -3,9 +3,9 @@ import java.sql.Connection;
 
 import java.sql.DriverManager;
 public class DBUtil {
-	private String dbUrl="jdbc:mysql://localhost:3306/mandarin?serverTimezone=Hongkong";
+	private String dbUrl="jdbc:mysql://47.92.141.59:3306/mandarin?serverTimezone=Hongkong";
 	private String userName = "root";
-	private String password = "root";
+	private String password = "Adminpassword123!";
 	private String jdbcName = "com.mysql.cj.jdbc.Driver";
 	/**
 	 * 获取数据库链接

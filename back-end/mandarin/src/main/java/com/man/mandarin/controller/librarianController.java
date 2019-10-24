@@ -1,14 +1,9 @@
 package com.man.mandarin.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.man.mandarin.entity.Admin;
 import com.man.mandarin.entity.Admin_rules;
-import com.man.mandarin.entity.Book;
 import com.man.mandarin.entity.Librarian;
-import com.man.mandarin.service.AdminService;
-import com.man.mandarin.service.BookService;
 import com.man.mandarin.service.LibrarianService;
 import com.man.mandarin.service.RuleService;
 import com.man.mandarin.util.JsonUtil;
@@ -25,8 +20,9 @@ public class librarianController {
     @Autowired
     private LibrarianService librarianService;
     @Autowired
-    private BookService bookService;
+    private RuleService ruleService;
     // 1.登录
+    @CrossOrigin(methods = RequestMethod.POST)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public JSON login(
@@ -60,94 +56,43 @@ public class librarianController {
             return jsonUtil.messagetoJson("fail","login_fail");
         }
     }
-    //2.添加书籍
-    @RequestMapping(value = "/addBook", method = RequestMethod.POST)
-    @ResponseBody
-    public JSON addBook(@RequestParam("book_isbn") String isbn,
-                        @RequestParam("book_title") String title,
-                        @RequestParam("book_author") String author,
-                        @RequestParam("book_publisher") String publisher,
-                        @RequestParam("book_price") double price,
-                        @RequestParam("book_location") String location,
-                        @RequestParam("book_status") int status,
-                        @RequestParam("book_barcode") String barcode,
-                        @RequestParam("category") String category){
-        JsonUtil jsonUtil =new JsonUtil();
-        try{
-            bookService.addBook(isbn,title,author,publisher,price,location,status,barcode,category);
-            return jsonUtil.messagetoJson("success",null);
-        }catch (Exception e){
-            return jsonUtil.messagetoJson("fail","add_fail");
-        }
+//2.获取图书借阅期限
+@CrossOrigin(methods = RequestMethod.GET)
+@RequestMapping(value = "/getReturnPeriod", method = RequestMethod.GET)
+@ResponseBody
+public JSON getBookPeriod() {
+    JsonUtil jsonUtil=new JsonUtil();
+    List<Admin_rules> rules= ruleService.getAllInfo();
+    try{
+        return jsonUtil.ruletoJson("success",rules,null,"period");
+    }catch (Exception e){
+        return jsonUtil.ruletoJson("fail",rules,"acquisition_failed",null);
     }
-    //3.删除图书
-    @RequestMapping(value = "/deleteBook",method = RequestMethod.POST)
+}
+    //3.获取读者缴纳金
+    @CrossOrigin(methods = RequestMethod.GET)
+    @RequestMapping(value = "/getDeposit", method = RequestMethod.GET)
     @ResponseBody
-    public JSON deleteBook(@RequestParam("book_id") int id){
+    public JSON getReaderDeposit() {
         JsonUtil jsonUtil=new JsonUtil();
+        List<Admin_rules> rules= ruleService.getAllInfo();
         try{
-            List<Book> books=bookService.queryById(id);
-            if (books.size()!=0){
-                bookService.deleteBookById(id);
-                return jsonUtil.messagetoJson("success",null);
-            }else
-                return jsonUtil.messagetoJson("fail","name_not_found");
+            return jsonUtil.ruletoJson("success",rules,null,"deposit");
         }catch (Exception e){
-            return jsonUtil.messagetoJson("fail","delete_fail");
+            return jsonUtil.ruletoJson("fail",rules,"acquisition_failed",null);
         }
     }
-
-    //4.图书管理员修改图书信息
-    @RequestMapping(value = "/modifyBookInfo",method = RequestMethod.POST)
+    //4.获取图书罚款的金额
+    @CrossOrigin(methods = RequestMethod.GET)
+    @RequestMapping(value = "/getFineValue", method = RequestMethod.GET)
     @ResponseBody
-public JSON modifyBookInfo(@RequestParam("book_id") int id,
-                           @RequestParam("book_isbn") String isbn,
-                           @RequestParam("book_title") String title,
-                           @RequestParam("book_author") String author,
-                           @RequestParam("book_publisher") String publisher,
-                           @RequestParam("book_price") double price,
-                           @RequestParam("book_location") String location,
-                           @RequestParam("book_status") int status,
-                           @RequestParam("book_barcode") String barcode,
-                           @RequestParam("category") String category){
+    public JSON getBookFine() {
         JsonUtil jsonUtil=new JsonUtil();
+        List<Admin_rules> rules=ruleService.getAllInfo();
         try{
-            List<Book> books=bookService.queryById(id);
-            bookService.addBook(isbn,title,author,publisher,price,location,status,barcode,category);
-            return jsonUtil.messagetoJson("success",null);
+            return jsonUtil.ruletoJson("success",rules,null,"fine");
         }catch (Exception e){
-            return jsonUtil.messagetoJson("fail","edit_fail");
+            return jsonUtil.ruletoJson("fail",rules,"acquisition_failed",null);
         }
     }
-    //5.通过图书名称搜索书籍
-    @RequestMapping(value = "/searchBookByTitle",method=RequestMethod.POST)
-    @ResponseBody
-    public JSON searchBookByTitle(@RequestParam("book_title") String title){
-        List<Book> books=bookService.queryByTitle(title);
-        JsonUtil jsonUtil=new JsonUtil();
-        try{
-            if (books.size()!=0){
-                return jsonUtil.booktoJson("success",books,null);
-            }else
-                return jsonUtil.booktoJson("fail",books,"title_not_found");
-        }catch (Exception e){
-            return jsonUtil.booktoJson("fail",books,"search_fail");
-        }
-    }
-    //6.通过图书isbn搜索书籍
-    @RequestMapping(value = "/searchBookByISBN",method=RequestMethod.POST)
-    @ResponseBody
-    public JSON searchBookByISBN(@RequestParam("book_isbn") String isbn){
-        List<Book> books=bookService.queryByIsbn(isbn);
-        JsonUtil jsonUtil=new JsonUtil();
-        try{
-            if (books.size()!=0){
-                return jsonUtil.booktoJson("success",books,null);
-            }else
-                return jsonUtil.booktoJson("fail",books,"isbn_not_found");
-        }catch (Exception e){
-            return jsonUtil.booktoJson("fail",books,"search_fail");
-        }
-    }
-
 }

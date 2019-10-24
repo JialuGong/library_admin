@@ -151,8 +151,8 @@ public JSON modifyBookFine(
 @RequestParam("timestamp") String timestamp) {
     JsonUtil jsonUtil=new JsonUtil();
         try{
-        ruleService.addRule(fine,-1.0,-1.0,timestamp);
-            return jsonUtil.messagetoJson("success",null);
+                ruleService.addRule(fine,-1.0,-1.0,timestamp);
+                return jsonUtil.messagetoJson("success",null);
         }catch (Exception ignored){
             return jsonUtil.messagetoJson("fail","modify_fail");
         }
@@ -252,6 +252,24 @@ public JSON getReaderDeposit() {
             return jsonUtil.admintoJson("success",admins,null);
         }catch (Exception e){
             return jsonUtil.admintoJson("fail",admins,"acquisition_failed");
+        }
+    }
+    //14.更改admin密码
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    @ResponseBody
+    public JSON changePassword(@RequestParam("admin_name") String name,
+    @RequestParam("admin_old_password") String old_password,
+    @RequestParam("admin_new_password") String new_password) {
+        JsonUtil jsonUtil=new JsonUtil();
+        List<Admin> admins = adminService.queryByName(name);
+        try{
+            if(admins.get(0).getPassword().equals(old_password)){
+               adminService.updateAdmin(name,new_password);
+                return jsonUtil.messagetoJson("success",null);
+            }else
+                return jsonUtil.messagetoJson("fail","password_wrong");
+        }catch (Exception e){
+            return jsonUtil.admintoJson("fail",admins,"change_failed");
         }
     }
         }

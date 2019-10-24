@@ -20,12 +20,12 @@ public interface LibrarianRepository extends JpaRepository<Librarian, Integer>, 
     void deleteById(int id);
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value = "update librarian " +
-            "set librarian_name=:name, " +
-            "librarian_password=:password, " +
-            "librarian_phone=:phone, " +
-            "librarian_email=:email " +
-            "where librarian_id=:id",nativeQuery = true)
+    @Query(value = "update manager " +
+            "set manager_name=:name, " +
+            "manager_password=:password, " +
+            "manager_phone=:phone, " +
+            "manager_email=:email " +
+            "where manager_id=:id",nativeQuery = true)
     int updateLib(@Param("id") int id,
                @Param("name") String name,
                @Param("password") String password,

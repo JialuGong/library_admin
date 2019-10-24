@@ -25,4 +25,7 @@ public class AdminService{
         List<Admin> adminList = adminRepository.findAll();
         return adminList;
     }
+    public void updateAdmin(String name ,String password){
+        adminRepository.updateAd(name,password);
+    }
 }

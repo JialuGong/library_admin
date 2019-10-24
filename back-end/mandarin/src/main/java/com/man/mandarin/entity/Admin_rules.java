@@ -2,38 +2,29 @@ package com.man.mandarin.entity;
 
 import javax.persistence.*;
 @Entity
-@Table(name="admin_rules")
+@Table(name="reader_rule")
 public class Admin_rules {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rule_id")
     int id;
-    @Column
+    @Column(name="fine")
     double fine;
-    @Column
+    @Column(name="return_period")
     double period;
-    @Column
+    @Column(name="deposit")
     double deposit;
-    @Column
+    @Column(name="timestamp")
     String timestamp;
 
     public Admin_rules() {
     }
 
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Admin_rules(double fine, double period, double deposit, String timestamp) {
-        super();
+    public Admin_rules(double fine, double return_period, double deposit, String timestamp) {
         this.fine = fine;
-        this.period = period;
+        this.period = return_period;
         this.deposit = deposit;
-        this.timestamp=timestamp;
+        this.timestamp = timestamp;
     }
 
     public int getId() {
@@ -52,12 +43,12 @@ public class Admin_rules {
         this.fine = fine;
     }
 
-    public double getPeriod() {
+    public double getReturn_period() {
         return period;
     }
 
-    public void setPeriod(double period) {
-        this.period = period;
+    public void setReturn_period(double return_period) {
+        this.period = return_period;
     }
 
     public double getDeposit() {
@@ -68,12 +59,20 @@ public class Admin_rules {
         this.deposit = deposit;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public String toString() {
         return "Admin_rules{" +
                 "id=" + id +
                 ", fine=" + fine +
-                ", period=" + period +
+                ", return_period=" + period +
                 ", deposit=" + deposit +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
