@@ -1,11 +1,10 @@
 # admin module for mandarin  library
 
-###### it's a simple web project use vue-cli and spring booot
+###### It's a simple web project using vue-cli and spring-booot for nwpu-spm group assiginment
 > front-end :[Huaiyu Gong](https://github.com/JialuGong)<br>
 > back-end :[floatinjianghu](https://github.com/floatinjianghu)
 
 
-you can view it on [mandarin|admin](http://47.92.141.59)
 ___
 
 ### functions
@@ -45,15 +44,15 @@ ___
 - [x] change password
 ___
 - front-end
-	- develop mode:
+	- for develop mode:
 		```js
         npm install
         npm run server
         ```
 	- for production mode
-	```js
-    npm run build
-    ```
+		```js
+        npm run build
+        ```
 - back-end
 	- run sql-file to create database
 	- run this spring-boot projects
