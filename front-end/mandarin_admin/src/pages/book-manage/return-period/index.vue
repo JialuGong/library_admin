@@ -27,7 +27,7 @@
                 <el-form-item>
                     <el-button
                         type="primary"
-                        @click="postForm(numberValidateForm,'numberValidateForm')"
+                        @click="postForm('numberValidateForm',numberValidateForm)"
                     >submit</el-button>
                     <el-button @click="resetForm('numberValidateForm')">restore</el-button>
                 </el-form-item>
@@ -84,12 +84,9 @@ export default {
             this.activities = chunck
         },
         postForm(formName, objectName) {
-            if (
-                this.submitForm(objectName) &&
-                this.varifyRule(formName, objectName)
-            ) {
+            this.checkForm(formName).then(chunck => {
                 let formData = new FormData()
-                let data = formName.period
+                let data = objectName.period
                 let date = getDate()
                 formData.append('book_period', data)
                 formData.append('timestamp', date)
@@ -99,25 +96,38 @@ export default {
                         Message.success('Modify success')
                     })
                 })
-            }
+            })
         },
-        varifyRule(formName, objectName) {
-            let data = formName.period
-            let pattern = /^[0-9]*$/
-            if (pattern.test(data)) {
-                return true
-            } else {
-                this.$refs[objectName].resetFields()
-                Message.warning('Format is not correct')
-                return false
-            }
-        },
+        // varifyRule(formName, objectName) {
+        //     let data = formName.period
+        //     let pattern = /^[0-9]*$/
+        //     if (pattern.test(data)) {
+        //         return true
+        //     } else {
+        //         this.$refs[objectName].resetFields()
+        //         Message.warning('Format is not correct')
+        //         return false
+        //     }
+        // },
         async submitForm(formName) {
             let result = await this.$refs[formName].validate()
             return result
         },
         resetForm(formName) {
             this.$refs[formName].resetFields()
+        },
+        checkForm(formName) {
+            console.log(`chechForm function excute`)
+            return new Promise((resolve, reject) => {
+                this.$refs[formName].validate(valid => {
+                    if (valid) {
+                        resolve(true)
+                    } else {
+                        Message.warning('Format is not correct')
+                        this.resetForm(formName)
+                    }
+                })
+            })
         }
     }
 }
