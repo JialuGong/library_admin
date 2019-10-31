@@ -151,12 +151,12 @@ export default {
                         max: 50,
                         message: 'The length of password must be 1-50',
                         trigger: 'blur'
+                    },
+                    {
+                        pattern: /^[a-zA-Z]\w{5,17}$/,
+                        message: 'The length of password should between 6-18,start with letter,can only contain letters,numbers and underscores',
+                        trigger: 'blur'
                     }
-                    // {
-                    //     pattern: /^[a-zA-Z]\w{5,17}$/,
-                    //     message: 'The format of password is not correct',
-                    //     trigger: 'blur'
-                    // }
                 ],
                 tabPhone: [
                     {
